@@ -1,0 +1,31 @@
+@import url("PageSelector/pageSelector.scss");
+@import url("InteractionsTab/interactionsTab.scss");
+@import url("InteractionsList/InteractionsList.scss");
+@import url("FilteredInteractions/filteredInteractions.scss");
+@import url("ListComponents/listComponents.scss");
+@import url("Header/header.scss");
+
+.select-interaction {
+  background-color: #e9eaeb;
+  padding: 20px;
+
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  &__header {
+    background: #e9eaeb;
+  }
+
+  &__tabs {
+    background: #e9eaeb;
+  }
+
+  &__loader {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}

@@ -1,0 +1,26 @@
+.interactions-tab {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  align-items: flex-start;
+
+  &__filters {
+    width: 320px;
+  }
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex: 1;
+  }
+
+  &__list {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+  }
+  &__pagination {
+    padding: 12px 20px;
+    border-radius: 8px;
+  }
+}

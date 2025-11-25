@@ -1,0 +1,141 @@
+import React, { useState, useEffect } from "react";
+import StatusColumn from "./StatusColumn/StatusColumn";
+import ChannelColumn from "./ChannelColumn/ChannelColumn";
+import DoubleStrokeColumn from "../../ListComponents/DoubleStrokeColumn/DoubleStrokeColumn";
+import moment from "moment";
+import ListColumn from "../../ListComponents/ListColumn/ListColumn";
+import LinkColumn from "../../ListComponents/LinkColumn/LinkColumn";
+import { MiddleEllipsisString } from "../../ListComponents/MiddleEllipsisString/MiddleEllipsisString";
+import icons from "../icons";
+import { IInteractionItem } from "../InteractionsListTypes";
+import InteractionsDetails from "./InteractionsDetails/InteractionsDetails";
+import { getRequestHref, getTaskHref } from "../../../../shared/utils/utils";
+import Scripts from "../../../../shared/utils/clientScripts.ts";
+
+type InteractionsListRowProps = {
+  /** Данные строки взаимодействия */
+  item: IInteractionItem;
+  openRowIndex: string | undefined;
+  setOpenRowIndex: React.Dispatch<React.SetStateAction<string | undefined>>;
+  reloadData: (id: string) => void;
+  items: IInteractionItem[];
+  setItems: React.Dispatch<React.SetStateAction<IInteractionItem[]>>;
+};
+
+/** Строка взаимодействия */
+export default function InteractionsListRow({
+  item,
+  openRowIndex,
+  setOpenRowIndex,
+  reloadData,
+  items,
+  setItems,
+}: InteractionsListRowProps) {
+  const emptyColumn = <ListColumn>–</ListColumn>;
+  const unknownColumn = <ListColumn>Неизвестно</ListColumn>;
+
+  const [isExecutor, setIsExecutor] = useState<boolean | null>(null);
+  useEffect(() => {
+    async function checkExecutor() {
+      const result = await Scripts.isCurrentUserExecutor(item.id);
+      setIsExecutor(result);
+    }
+    checkExecutor();
+  }, []);
+
+  /** Показать детальную информацию */
+  const toggleShowDetails = () => {
+    if (!item.id) return;
+    if (String(item.id) === openRowIndex) {
+      setOpenRowIndex(undefined);
+      return;
+    }
+    setOpenRowIndex(String(item.id));
+  };
+  const isShowDetails = String(item.id) === openRowIndex;
+
+  return (
+    <>
+      <div className="interactions-list-row">
+        <StatusColumn status={item.status} />
+        <ChannelColumn
+          channel={item.channelType}
+          isIncoming={item.isIncoming}
+        />
+        <DoubleStrokeColumn
+          firstRowValue={item.entryPoint.channelSort}
+          secondRowValue={item.entryPoint.marketingName}
+        />
+        <ListColumn>{item.ivr}</ListColumn>
+        <ListColumn></ListColumn>
+        <ListColumn tooltip={item.contactData}>{item.contactData}</ListColumn>
+        <DoubleStrokeColumn
+          firstRowValue={item.createdAt.date}
+          secondRowValue={item.createdAt.duration}
+        />
+        <ListColumn>{item.number}</ListColumn>
+        {!!item.contractorName ? (
+          <ListColumn>{item.contractorName}</ListColumn>
+        ) : (
+          unknownColumn
+        )}
+        <ListColumn tooltip="">
+          {item.hasAttachments && icons.attachmentIcon}
+        </ListColumn>
+        <ListColumn>{item.requestTopic}</ListColumn>
+        {!!item.request?.code ? (
+          <LinkColumn
+            href={getRequestHref(item.request.code)}
+            tooltip={item.request.name}
+          >
+            {item.request.name}
+          </LinkColumn>
+        ) : (
+          emptyColumn
+        )}
+        {!!item.request?.code && !!item.task?.code ? (
+          <LinkColumn
+            href={getTaskHref(item.request.code, item.task.code)}
+            tooltip={item.task.name}
+          >
+            {item.task.name}
+          </LinkColumn>
+        ) : (
+          emptyColumn
+        )}
+        {!!item.executor && item.executor.fullname != "" ? (
+          <DoubleStrokeColumn
+            firstRowValue={item.executor.fullname}
+            secondRowValue={item.executor.groupName}
+          />
+        ) : (
+          emptyColumn
+        )}
+        {/* Кнопка разворачивания только если пользователь = исполнитель */}
+        {isExecutor && (
+          <ListColumn tooltip={isShowDetails ? "Свернуть" : "Развернуть"}>
+            <button
+              className="expand-button"
+              style={{
+                transform: isShowDetails ? "rotate(180deg)" : "rotate(0deg)",
+              }}
+              onClick={toggleShowDetails}
+            >
+              {icons.arrowIcon}
+            </button>
+          </ListColumn>
+        )}
+      </div>
+      {/* Детальная информация */}
+      {isShowDetails && (
+        <InteractionsDetails
+          reloadData={reloadData}
+          data={item}
+          onClickRowHandler={toggleShowDetails}
+          items={items}
+          setItems={setItems}
+        />
+      )}
+    </>
+  );
+}

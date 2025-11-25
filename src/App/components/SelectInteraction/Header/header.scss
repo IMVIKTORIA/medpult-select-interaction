@@ -1,0 +1,26 @@
+.header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: "Inter";
+
+  &__title {
+    color: #222427;
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 32px;
+  }
+
+  &__status {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    align-items: center;
+    color: #303337;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    cursor: pointer;
+  }
+}
