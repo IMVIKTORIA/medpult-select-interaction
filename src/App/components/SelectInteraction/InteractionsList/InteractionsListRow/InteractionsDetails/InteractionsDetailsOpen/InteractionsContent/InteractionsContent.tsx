@@ -146,10 +146,10 @@ function InteractionsContent({
       <InteractionField label="Статус обработки">
         <span
           className="interactions-open-panel-content__status"
-          title={data.status.name}
+          title={data.status.value}
         >
           {getIcon(data.status.code)}
-          {data.status.name}
+          {data.status.value}
         </span>
       </InteractionField>
 

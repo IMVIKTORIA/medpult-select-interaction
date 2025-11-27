@@ -83,27 +83,27 @@ export default function InteractionsListRow({
           {item.hasAttachments && icons.attachmentIcon}
         </ListColumn>
         <ListColumn>{item.requestTopic}</ListColumn>
-        {!!item.request?.code ? (
+        {!!item.request ? (
           <LinkColumn
             href={getRequestHref(item.request.code)}
-            tooltip={item.request.name}
+            tooltip={item.request.value}
           >
-            {item.request.name}
+            {item.request.value}
           </LinkColumn>
         ) : (
           emptyColumn
         )}
-        {!!item.request?.code && !!item.task?.code ? (
+        {!!item.request && !!item.task ? (
           <LinkColumn
             href={getTaskHref(item.request.code, item.task.code)}
-            tooltip={item.task.name}
+            tooltip={item.task.value}
           >
-            {item.task.name}
+            {item.task.value}
           </LinkColumn>
         ) : (
           emptyColumn
         )}
-        {!!item.executor && item.executor.fullname != "" ? (
+        {!!item.executor ? (
           <DoubleStrokeColumn
             firstRowValue={item.executor.fullname}
             secondRowValue={item.executor.groupName}

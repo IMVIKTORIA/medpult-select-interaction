@@ -74,6 +74,8 @@ export default function InteractionsTab(props: IInteractionsTabProps) {
   const [isShowFilters, setIsShowFilters] = useState<boolean>(true);
   const toggleShowFilters = () => setIsShowFilters(!isShowFilters);
 
+  const [filters, setFilters] = useState<ISearchInteractionsParams>({});
+
   return (
     <div className="interactions-tab">
       {!isShowFilters && (
@@ -91,6 +93,8 @@ export default function InteractionsTab(props: IInteractionsTabProps) {
       {isShowFilters && (
         <div className="interactions-tab__filters">
           <FilteredInteractions
+            filters={filters}
+            setFilters={setFilters}
             clickFilterHandler={toggleShowFilters}
             setSearchParams={setSearchParams}
           />
@@ -113,6 +117,7 @@ export default function InteractionsTab(props: IInteractionsTabProps) {
               addItemsHandler={addItemsHandler}
               resetTrigger={resetTrigger}
               filteredElementsCount={filteredElementsCount}
+              isVisible={filteredElementsCount > 20}
             />
           </div>
         </div>

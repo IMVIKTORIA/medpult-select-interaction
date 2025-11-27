@@ -5,20 +5,14 @@ import ButtonModal from "./ButtonModal/ButtonModal";
 import { SearchableSelect } from "./SearchableSelect/SearchableSelect";
 import Scripts from "../../../../../../../../shared/utils/clientScripts";
 import { ObjectItem } from "../../../../../../../../../UIKit/Filters/FiltersTypes";
-import { IObjectData } from "../../../../../InteractionsListTypes";
 
 interface ModalExecutorProps {
   interactionId: string;
   closeModal: () => void;
-  initialGroup: IObjectData | null;
-  initialEmployee: IObjectData | null;
+  initialGroup: ObjectItem | null;
+  initialEmployee: ObjectItem | null;
   onSave?: () => void;
 }
-
-const toIObjectData = (item: ObjectItem): IObjectData => ({
-  name: item.value,
-  code: item.code,
-});
 
 /** Модальное окно исполнителя */
 export default function ModalExecutor({
@@ -28,8 +22,8 @@ export default function ModalExecutor({
   initialEmployee,
   onSave,
 }: ModalExecutorProps) {
-  const [group, setGroup] = useState<IObjectData | null>(initialGroup);
-  const [employee, setEmployee] = useState<IObjectData | null>(initialEmployee);
+  const [group, setGroup] = useState<ObjectItem | null>(initialGroup);
+  const [employee, setEmployee] = useState<ObjectItem | null>(initialEmployee);
 
   const saveGroupExecutor = async () => {
     await Scripts.saveGroupExecutor(interactionId, group, employee);
@@ -55,12 +49,9 @@ export default function ModalExecutor({
               placeholder="Введите название группы"
               value={group}
               onSelect={setGroup}
-              getDataHandler={async () => {
-                const data = await Scripts.getUserGroups(
-                  employee ? [employee.code] : []
-                );
-                return data.map(toIObjectData);
-              }}
+              getDataHandler={() =>
+                Scripts.getUserGroups(employee ? [employee.code] : [])
+              }
             />
 
             <SearchableSelect
@@ -68,12 +59,9 @@ export default function ModalExecutor({
               placeholder="Введите ФИО сотрудника"
               value={employee}
               onSelect={setEmployee}
-              getDataHandler={async () => {
-                const data = await Scripts.getUsersInteraction(
-                  group ? [group.code] : []
-                );
-                return data.map(toIObjectData);
-              }}
+              getDataHandler={() =>
+                Scripts.getUsersInteraction(group ? [group.code] : [])
+              }
             />
           </div>
 

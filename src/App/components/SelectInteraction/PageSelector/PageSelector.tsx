@@ -87,6 +87,8 @@ type PageSelectorProps = {
   filteredElementsCount: number | undefined;
   /** Триггер для сброса списка */
   resetTrigger: Date;
+  /** Видна ли разметка */
+  isVisible: boolean;
 };
 
 /** Выбор страницы */
@@ -96,6 +98,7 @@ export default function PageSelector({
   addItemsHandler,
   filteredElementsCount,
   resetTrigger,
+  isVisible,
 }: PageSelectorProps) {
   // Индекс текущей страницы
   const [currentPageIndex, setCurrentPageIndex] = useState(0);
@@ -181,7 +184,10 @@ export default function PageSelector({
   );
 
   return (
-    <div className="page-selector">
+    <div
+      className="page-selector"
+      style={{ display: isVisible ? "flex" : "none" }}
+    >
       <div className="page-selector__button-wrapper">
         <button
           className="page-selector__button-wrapper_button"

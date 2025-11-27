@@ -84,7 +84,7 @@ const generateRandomRequest = () => {
   if (Math.random() > 0.5) return;
 
   return {
-    name: `RQ${generateFixedLengthString(8)}/21`,
+    value: `RQ${generateFixedLengthString(8)}/21`,
     code: `CODE-${Math.ceil(Math.random() * 1000)}`,
   };
 };
@@ -95,7 +95,7 @@ const generateRandomTask = (hasRequest: boolean) => {
   if (Math.random() > 0.5) return;
 
   return {
-    name: `TS${generateFixedLengthString(8)}/21`,
+    value: `TS${generateFixedLengthString(8)}/21`,
     code: `CODE-${Math.ceil(Math.random() * 1000)}`,
   };
 };

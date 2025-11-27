@@ -74,7 +74,7 @@ function InteractionsExecutor({
           {data.group?.code ? (
             <div className="interactions-open-panel-executor__group_group">
               <span className="interactions-open-panel-executor__group__value">
-                {data.group.name}
+                {data.group.value}
               </span>
               <div
                 onClick={AddExecutorClick}
@@ -103,7 +103,7 @@ function InteractionsExecutor({
           {data.employee?.code ? (
             <div className="interactions-open-panel-executor__group_group">
               <span className="interactions-open-panel-executor__group__value">
-                {data.employee.name}
+                {data.employee.value}
               </span>
               <div
                 onClick={AddExecutorClick}
@@ -135,7 +135,7 @@ function InteractionsExecutor({
             }`}
             onClick={onClickNumberRequest}
           >
-            {data.request?.name}
+            {data.request?.value}
           </span>
         </InteractionField>
 
@@ -146,7 +146,7 @@ function InteractionsExecutor({
             }`}
             onClick={onClickNumberTask}
           >
-            {data.task?.name}
+            {data.task?.value}
           </span>
         </InteractionField>
       </div>

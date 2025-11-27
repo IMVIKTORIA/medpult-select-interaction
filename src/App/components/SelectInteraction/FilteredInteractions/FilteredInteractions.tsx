@@ -11,16 +11,17 @@ import FilterItemCategorySearch from "../../../../UIKit/Filters/FilterItems/Filt
 import CustomInputCheckbox from "../../../../UIKit/CustomInputCheckbox/CustomInputCheckbox.tsx";
 
 interface FilteredInteractionsProps {
+  filters: ISearchInteractionsParams;
+  setFilters: React.Dispatch<React.SetStateAction<ISearchInteractionsParams>>;
   clickFilterHandler?: () => void;
   setSearchParams: (filters: ISearchInteractionsParams) => void;
 }
 export default function FilteredInteractions({
   clickFilterHandler,
   setSearchParams,
+  filters,
+  setFilters,
 }: FilteredInteractionsProps) {
-  /** Состояние фильтров */
-  const [filters, setFilters] = useState<ISearchInteractionsParams>({});
-
   /** Очистка всех фильтров */
   const clearFilters = () => {
     const empty = {};

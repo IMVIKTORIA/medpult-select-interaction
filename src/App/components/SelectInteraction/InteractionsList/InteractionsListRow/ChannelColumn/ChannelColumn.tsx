@@ -20,10 +20,10 @@ function ChannelColumn(props: ChannelColumnProps) {
       case ChannelType.email:
         if (isIncoming) return ChannelColumnIcons.imgIncomingEmail;
         return ChannelColumnIcons.imgOutgoingEmail;
-      case ChannelType.phonecall:
+      case ChannelType.call:
         if (isIncoming) return ChannelColumnIcons.imgIncomingCall;
         return ChannelColumnIcons.imgOutgoingCall;
-      case ChannelType.telefon:
+      case ChannelType.sms:
         if (isIncoming) return ChannelColumnIcons.imgIncomingSms;
         return ChannelColumnIcons.imgOutgoingSms;
       default:
@@ -37,10 +37,10 @@ function ChannelColumn(props: ChannelColumnProps) {
       case ChannelType.email:
         if (isIncoming) return "Входящий email";
         return "Исходящий email";
-      case ChannelType.phonecall:
+      case ChannelType.call:
         if (isIncoming) return "Входящий звонок";
         return "Исходящий звонок";
-      case ChannelType.telefon:
+      case ChannelType.sms:
         if (isIncoming) return "Входящее СМС";
         return "Исходящее СМС";
       default:

@@ -2,14 +2,13 @@ import React, { useState, useRef, useEffect } from "react";
 import icons from "../../../../../../icons";
 import { ObjectItem } from "../../../../../../../../../../UIKit/Filters/FiltersTypes";
 import Loader from "../../../../../../../../../../UIKit/Loader/Loader";
-import { IObjectData } from "../../../../../../InteractionsListTypes";
 
 interface SearchableSelectProps {
   label: string;
   placeholder: string;
-  value: IObjectData | null;
-  onSelect: (value: IObjectData) => void;
-  getDataHandler?: () => Promise<IObjectData[]>;
+  value: ObjectItem | null;
+  onSelect: (value: ObjectItem) => void;
+  getDataHandler?: () => Promise<ObjectItem[]>;
 }
 
 export function SearchableSelect({
@@ -21,7 +20,7 @@ export function SearchableSelect({
 }: SearchableSelectProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [search, setSearch] = useState("");
-  const [items, setItems] = useState<IObjectData[]>([]);
+  const [items, setItems] = useState<ObjectItem[]>([]);
   const [loading, setLoading] = useState(false);
   const ref = useRef<HTMLDivElement | null>(null);
 
@@ -39,7 +38,7 @@ export function SearchableSelect({
   };
 
   const filteredItems = items.filter(
-    (item) => item.name?.toLowerCase().includes(search.toLowerCase())
+    (item) => item.value?.toLowerCase().includes(search.toLowerCase())
   );
 
   // Закрытие по клику вне
@@ -58,7 +57,7 @@ export function SearchableSelect({
       <div className="searchable-select__label">{label}</div>
       <div className="searchable-select__input" onClick={toggleDropdown}>
         <span className="searchable-select__input__value">
-          {value?.name || ""}
+          {value?.value || ""}
         </span>
 
         <span
@@ -111,7 +110,7 @@ export function SearchableSelect({
                     setSearch("");
                   }}
                 >
-                  {item.name}
+                  {item.value}
                 </div>
               ))
             )}

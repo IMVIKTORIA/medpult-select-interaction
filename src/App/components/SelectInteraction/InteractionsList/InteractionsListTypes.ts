@@ -19,9 +19,9 @@ export enum ChannelType {
   /** Электронная почта */
   email = "email",
   /** Звонок */
-  phonecall = "phonecall",
+  call = "call",
   /** СМС */
-  telefon = "telefon",
+  sms = "sms",
   /** Ручной ввод */
   manual = "manual",
 }
@@ -33,6 +33,16 @@ export enum SlaStatus {
   warning,
   /** Просрочено */
   overdue,
+}
+
+/** Коды сортируемых колонок взаимодействий */
+export enum InteractionsSortableFieldCode {
+  /** Дата создания */
+  createdAt = "createdAt",
+  /** Контрагент */
+  contractor = "contractor",
+  /** Ипсолнитель */
+  executor = "executor",
 }
 
 /** Данные точки входа */
@@ -58,12 +68,6 @@ export interface IDateData {
   duration: string;
 }
 
-export interface IObjectData {
-  /**Номер */
-  name: string;
-  /** Код */
-  code: string;
-}
 /** Элемент списка взаимодействий */
 export interface IInteractionItem {
   /** Идентификатор Взаимодействия */
@@ -93,9 +97,9 @@ export interface IInteractionItem {
   /** Тема обращения */
   requestTopic: string;
   /** Обращение */
-  request: IObjectData | undefined;
+  request: ObjectItem | undefined;
   /** Задача */
-  task: IObjectData | undefined;
+  task: ObjectItem | undefined;
   /** Задача */
   executor: IExecutorData | undefined;
 }
@@ -133,17 +137,17 @@ export interface IInteractionDetailsItem {
   /** Дата создания */
   createdAt: string;
   /** Статус взаимодействия */
-  status: IObjectData;
+  status: ObjectItem;
   /** Вложения */
   fileSrc?: FilesData[];
   /** Группа */
-  group?: IObjectData;
+  group?: ObjectItem;
   /** Сотрудник */
-  employee?: IObjectData;
+  employee?: ObjectItem;
   /** Номер обращения */
-  request?: IObjectData;
+  request?: ObjectItem;
   /** Номер задачи */
-  task?: IObjectData;
+  task?: ObjectItem;
   /** Причина обращения */
   reasonRequest: string;
   /** Описание задачи */

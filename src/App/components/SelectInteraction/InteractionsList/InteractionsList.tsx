@@ -4,6 +4,7 @@ import { SearchParams, SortData } from "../../../shared/types";
 import {
   IInteractionItem,
   ISearchInteractionsParams,
+  InteractionsSortableFieldCode,
 } from "./InteractionsListTypes";
 import Scripts from "../../../shared/utils/clientScripts";
 import ListHeaderColumn from "../ListComponents/ListHeaderColumn/ListHeaderColumn";
@@ -72,25 +73,29 @@ export default function InteractionsList({
         <ListHeaderColumn></ListHeaderColumn>
         <ListHeaderColumn>Точка входа</ListHeaderColumn>
         <ListHeaderColumn>IVR</ListHeaderColumn>
-        <ListHeaderColumn {...getListColumnProps("slaStatus")}>
-          SLA
-        </ListHeaderColumn>
+        <ListHeaderColumn>SLA</ListHeaderColumn>
         <ListHeaderColumn tooltip="Телефон / Email">
           Телефон /<br />
           Email
         </ListHeaderColumn>
-        <ListHeaderColumn {...getListColumnProps("createdAt")}>
+        <ListHeaderColumn
+          {...getListColumnProps(InteractionsSortableFieldCode.createdAt)}
+        >
           Дата и время
         </ListHeaderColumn>
         <ListHeaderColumn>Номер взаимодейтсвия</ListHeaderColumn>
-        <ListHeaderColumn {...getListColumnProps("contractorName")}>
+        <ListHeaderColumn
+          {...getListColumnProps(InteractionsSortableFieldCode.contractor)}
+        >
           Контрагент
         </ListHeaderColumn>
         <ListHeaderColumn></ListHeaderColumn>
         <ListHeaderColumn>Тема обращения</ListHeaderColumn>
         <ListHeaderColumn>Обращение</ListHeaderColumn>
         <ListHeaderColumn>Задача</ListHeaderColumn>
-        <ListHeaderColumn {...getListColumnProps("executor")}>
+        <ListHeaderColumn
+          {...getListColumnProps(InteractionsSortableFieldCode.executor)}
+        >
           Исполнитель
         </ListHeaderColumn>
         <ListHeaderColumn></ListHeaderColumn>

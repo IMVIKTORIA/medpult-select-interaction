@@ -3,7 +3,6 @@ import {
   IInteractionDetailsItem,
   FilesData,
   InteractionStatus,
-  IObjectData,
 } from "../../components/SelectInteraction/InteractionsList/InteractionsListTypes";
 import { TabsItemsCounts } from "../types";
 import { generateRandomInteractionItem } from "./InteractionsListScripts/interactionsGenerator";
@@ -39,7 +38,7 @@ async function getInteractionsDetails(
     fioWhom: ["103@sberins.ru"],
     copy: [""],
     createdAt: " 02.08.2025 15:00",
-    status: { name: "Новое", code: InteractionStatus.new },
+    status: { value: "Новое", code: InteractionStatus.new },
     fileSrc: [
       {
         ...new FilesData(),
@@ -54,10 +53,10 @@ async function getInteractionsDetails(
         nameFiles: "file2",
       },
     ],
-    group: { name: "Экстренная помощь", code: "fasfas" },
-    employee: { name: "", code: "" },
-    request: { name: "RQ00000809/21", code: "fasfas" },
-    task: { name: " -", code: "" },
+    group: { value: "Экстренная помощь", code: "fasfas" },
+    employee: { value: "", code: "" },
+    request: { value: "RQ00000809/21", code: "fasfas" },
+    task: { value: " -", code: "" },
     reasonRequest: "Информация о состоянии здоровья",
     descriptionTask:
       " Информация о состоянии здоровья предоставляется пациенту лично",
@@ -190,8 +189,8 @@ async function getUsersInteraction(groups?: string[]): Promise<ObjectItem[]> {
 /** Сохранить группу и пользователя */
 async function saveGroupExecutor(
   interactionId: string | undefined,
-  group: IObjectData | null,
-  employee?: IObjectData | null
+  group: ObjectItem | null,
+  employee?: ObjectItem | null
 ): Promise<void> {
   // TODO
   await randomDelay();
@@ -226,10 +225,6 @@ function getIcomingEmailLink(): string {
   return "";
 }
 
-async function OnInit(): Promise<void> {
-  await randomDelay();
-}
-
 async function isCurrentUserExecutor(interactionId: string): Promise<boolean> {
   return true;
 }
@@ -255,7 +250,6 @@ export default {
   getRequestPagePath,
   getRequestIdByTaskId,
   getIcomingEmailLink,
-  OnInit,
   isCurrentUserExecutor,
 
   ...interactionsListScripts,

@@ -21,52 +21,29 @@ export default function SelectInteraction() {
   /** Обработчик сброса списка и его контролера */
   const handleResetList = () => setLastResetDate(new Date());
 
-  const [isInitializing, setIsInitializing] = useState<boolean>(true);
-
-  useEffect(() => {
-    const init = async () => {
-      try {
-        await Scripts.OnInit();
-      } catch (e) {
-        console.error("Ошибка при инициализации:", e);
-      } finally {
-        setIsInitializing(false);
-      }
-    };
-    init();
-  }, []);
-
   return (
     <div className="select-interaction">
-      {isInitializing ? (
-        <div className="select-interaction__loader">
-          <Loader />
-        </div>
-      ) : (
-        <>
-          <div className="select-interaction__header">
-            <Header
-              title="Взаимодействия"
-              status={{ name: "Готов", code: "done" }}
-            />
-          </div>
-          <div className="select-interaction__tabs">
-            <InteractionsTab
-              setLoadData={setAddItemsHandler}
-              setClearList={setClearItemsHandler}
-              setFilteredElementsCount={setFilteredElementsCount}
-              getInteractions={Scripts.getInteractions}
-              getInteractionsCount={Scripts.getInteractionsCount}
-              handleResetList={handleResetList}
-              elementsCount={elementsCount}
-              clearItemsHandler={clearItemsHandler}
-              addItemsHandler={addItemsHandler}
-              resetTrigger={lastResetDate}
-              filteredElementsCount={filteredElementsCount}
-            />
-          </div>
-        </>
-      )}
+      <div className="select-interaction__header">
+        <Header
+          title="Взаимодействия"
+          status={{ name: "Готов", code: "done" }}
+        />
+      </div>
+      <div className="select-interaction__tabs">
+        <InteractionsTab
+          setLoadData={setAddItemsHandler}
+          setClearList={setClearItemsHandler}
+          setFilteredElementsCount={setFilteredElementsCount}
+          getInteractions={Scripts.getInteractions}
+          getInteractionsCount={Scripts.getInteractionsCount}
+          handleResetList={handleResetList}
+          elementsCount={elementsCount}
+          clearItemsHandler={clearItemsHandler}
+          addItemsHandler={addItemsHandler}
+          resetTrigger={lastResetDate}
+          filteredElementsCount={filteredElementsCount}
+        />
+      </div>
     </div>
   );
 }
