@@ -20,6 +20,8 @@ interface IInteractionsListProps extends IInteractionsTabProps {
   sortData: SortData | undefined;
   /** Переключить данные сортировки */
   toggleSort: (fieldCode: string) => void;
+  /** Был ли поиск */
+  hasSearched: boolean;
   /** Сохранение состояния вкладки */
   saveState: () => void;
 }
@@ -33,6 +35,7 @@ export default function InteractionsList({
   toggleSort,
   getInteractions,
   saveState,
+  hasSearched,
 }: IInteractionsListProps) {
   const [openRowIndex, setOpenRowIndex] = useState<string | undefined>(
     undefined
@@ -108,11 +111,15 @@ export default function InteractionsList({
         {!isLoading && items.length === 0 && (
           <div className="interactions-list__empty">
             <span className="interactions-list__empty__title">
-              Взаимодействие не найдено
+              {hasSearched
+                ? "Взаимодействие не найдено"
+                : "Выполните поиск по взаимодействиям"}
             </span>
-            <span className="interactions-list__empty__subtitle">
-              Попробуйте изменить критерии поиска
-            </span>
+            {hasSearched && (
+              <span className="interactions-list__empty__subtitle">
+                Попробуйте изменить критерии поиска
+              </span>
+            )}
           </div>
         )}
         {!isLoading &&

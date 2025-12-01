@@ -202,8 +202,11 @@ export default function PageSelector({
       </div>
       <div className="page-selector__selector">
         <button
-          className="page-selector__selector_left-arrow"
+          className={`page-selector__selector_left-arrow ${
+            currentPageNumber === 1 ? "disabled-arrow" : ""
+          }`}
           onClick={handleLeftArrowClick}
+          disabled={currentPageNumber === 1}
         >
           {ArrowIcon}
         </button>
@@ -242,8 +245,11 @@ export default function PageSelector({
         </div>
 
         <button
-          className="page-selector__selector_right-arrow"
+          className={`page-selector__selector_right-arrow ${
+            currentPageNumber === pagesCount ? "disabled-arrow" : ""
+          }`}
           onClick={handleRightArrowClick}
+          disabled={currentPageNumber === pagesCount}
         >
           {ArrowIcon}
         </button>

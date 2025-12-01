@@ -69,21 +69,6 @@ export default function SendEmailModal({
     }
   }, [initialData, mode]);
 
-  /** Сохранение состояния формы */
-  const saveStateHandler = () => {
-    const formState = {
-      recipient,
-      email,
-      copyEmails,
-      topic,
-      line,
-      session,
-      text,
-      files,
-    };
-    console.log("Сохранено состояние:", formState);
-  };
-
   /** Ссылка на форму отбора контрагентов */
   const selectContractorHref = (() => {
     const baseLink = Scripts.getSelectContractorLink();
@@ -193,6 +178,7 @@ export default function SendEmailModal({
                 setValue={setRecipient}
                 disabled
                 style={{ backgroundColor: "#EBEBEB", height: "29px" }}
+                isInvalid={false}
               />
             )}
           </div>

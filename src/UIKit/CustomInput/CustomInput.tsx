@@ -55,7 +55,9 @@ function CustomInput(props: CustomInputProps) {
       ref={wrapperRef}
       style={{
         ...style,
-        border: isInvalid ? "2px solid #ff0505" : "2px solid #d9d9d9",
+        ...(isInvalid !== undefined
+          ? { border: isInvalid ? "2px solid #ff0505" : "2px solid #d9d9d9" }
+          : {}),
       }}
     >
       <input

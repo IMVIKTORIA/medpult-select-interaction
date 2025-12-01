@@ -15,12 +15,14 @@ interface FilteredInteractionsProps {
   setFilters: React.Dispatch<React.SetStateAction<ISearchInteractionsParams>>;
   clickFilterHandler?: () => void;
   setSearchParams: (filters: ISearchInteractionsParams) => void;
+  clearSearch?: () => void;
 }
 export default function FilteredInteractions({
   clickFilterHandler,
   setSearchParams,
   filters,
   setFilters,
+  clearSearch,
 }: FilteredInteractionsProps) {
   /** Очистка всех фильтров */
   const clearFilters = () => {
@@ -32,6 +34,10 @@ export default function FilteredInteractions({
     setPhoneError("");
 
     setSearchParams(empty);
+
+    if (clearSearch) {
+      clearSearch();
+    }
   };
 
   /** Применить все фильтры */

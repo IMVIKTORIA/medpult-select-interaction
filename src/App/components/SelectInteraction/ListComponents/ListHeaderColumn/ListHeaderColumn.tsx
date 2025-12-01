@@ -34,7 +34,6 @@ function SortButton({ handleSortClick, sortingState }: IListHeaderColumnProps) {
         <span
           style={{
             transform: `rotate(${rotation})`,
-            transition: "transform 0.2s",
           }}
         >
           {icons.SortArrow}

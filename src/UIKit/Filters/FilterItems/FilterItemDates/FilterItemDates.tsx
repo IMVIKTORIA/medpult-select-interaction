@@ -171,7 +171,7 @@ export default function FilterItemDate({
             type="date"
             value={valueTo || ""}
             setValue={handleDateTo}
-            isInvalid={isInvalidDateTo}
+            //  isInvalid={isInvalidDateTo}
             placeholder="по"
           />
           <CustomInput

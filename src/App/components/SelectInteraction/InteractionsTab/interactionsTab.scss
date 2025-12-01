@@ -1,11 +1,12 @@
 .interactions-tab {
   display: flex;
   flex-direction: row;
-  gap: 12px;
+  //gap: 12px;
   align-items: flex-start;
 
   &__filters {
     width: 320px;
+    margin-right: 12px;
   }
   &__content {
     display: flex;

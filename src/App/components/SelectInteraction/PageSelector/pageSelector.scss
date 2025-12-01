@@ -73,10 +73,36 @@
           stroke: #303337;
         }
       }
+
+      &.disabled-arrow {
+        background-color: #e9eaeb;
+        cursor: not-allowed;
+
+        & path {
+          stroke: #a4a7ae;
+        }
+
+        &:hover {
+          background-color: #e9eaeb;
+        }
+      }
     }
 
     &_right-arrow {
       transform: rotate(180deg);
+
+      &.disabled-arrow {
+        background-color: #e9eaeb;
+        cursor: not-allowed;
+
+        & path {
+          stroke: #a4a7ae;
+        }
+
+        &:hover {
+          background-color: #e9eaeb;
+        }
+      }
     }
 
     &_pages {

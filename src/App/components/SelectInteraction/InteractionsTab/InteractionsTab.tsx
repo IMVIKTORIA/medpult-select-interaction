@@ -47,6 +47,7 @@ export default function InteractionsTab(props: IInteractionsTabProps) {
   const [searchParams, setSearchParams] = useState<ISearchInteractionsParams>(
     {}
   );
+
   const {
     handleResetList,
     getInteractionsCount,
@@ -78,6 +79,16 @@ export default function InteractionsTab(props: IInteractionsTabProps) {
   const toggleShowFilters = () => setIsShowFilters(!isShowFilters);
 
   const [filters, setFilters] = useState<ISearchInteractionsParams>({});
+
+  const [hasSearched, setHasSearched] = useState(false);
+  const applyFiltersHandler = (newFilters: ISearchInteractionsParams) => {
+    setFilters(newFilters);
+    setSearchParams(newFilters);
+    setHasSearched(true);
+  };
+  const clearFiltersHandler = () => {
+    setHasSearched(false);
+  };
 
   /** Восстановление состояния при монтировании */
   useEffect(() => {
@@ -114,9 +125,9 @@ export default function InteractionsTab(props: IInteractionsTabProps) {
           clickHandler={toggleShowFilters}
           style={{
             rotate: "180deg",
-            padding: "6px",
-            height: "40px",
-            width: "40px",
+            backgroundColor: "transparent",
+            marginRight: "-20px",
+            marginTop: "10px",
           }}
         />
       )}
@@ -126,7 +137,8 @@ export default function InteractionsTab(props: IInteractionsTabProps) {
             filters={filters}
             setFilters={setFilters}
             clickFilterHandler={toggleShowFilters}
-            setSearchParams={setSearchParams}
+            setSearchParams={applyFiltersHandler}
+            clearSearch={() => clearFiltersHandler()}
           />
         </div>
       )}
@@ -139,6 +151,7 @@ export default function InteractionsTab(props: IInteractionsTabProps) {
               toggleSort={toggleSort}
               searchParams={searchParams}
               saveState={saveState}
+              hasSearched={hasSearched}
             />
           </div>
           <div className="interactions-tab__pagination">
