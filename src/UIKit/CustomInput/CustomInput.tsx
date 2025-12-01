@@ -53,7 +53,10 @@ function CustomInput(props: CustomInputProps) {
         customClassname ? customClassname : ""
       }`}
       ref={wrapperRef}
-      style={style}
+      style={{
+        ...style,
+        border: isInvalid ? "2px solid #ff0505" : "2px solid #d9d9d9",
+      }}
     >
       <input
         name={name}

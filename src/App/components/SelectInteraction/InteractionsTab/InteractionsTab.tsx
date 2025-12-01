@@ -10,6 +10,7 @@ import { useSort } from "../../../shared/hooks.ts";
 import PageSelector from "../PageSelector/PageSelector.tsx";
 import Button from "../../../../UIKit/Button/Button.tsx";
 import icons from "../../../../UIKit/shared/icons.tsx";
+import Scripts from "../../../shared/utils/clientScripts";
 
 export interface IInteractionsTabProps {
   /** Установить обработчик подгрузки данных */
@@ -38,6 +39,7 @@ export interface IInteractionsTabProps {
   addItemsHandler: (page: number, size: number) => Promise<void>;
   resetTrigger: Date;
   filteredElementsCount: number;
+  contractorId?: string;
 }
 
 /** Вкладка взаимодействий */
@@ -54,6 +56,7 @@ export default function InteractionsTab(props: IInteractionsTabProps) {
     addItemsHandler,
     resetTrigger,
     filteredElementsCount,
+    contractorId,
   } = props;
   const { sortData, toggleSort } = useSort();
 
@@ -75,6 +78,33 @@ export default function InteractionsTab(props: IInteractionsTabProps) {
   const toggleShowFilters = () => setIsShowFilters(!isShowFilters);
 
   const [filters, setFilters] = useState<ISearchInteractionsParams>({});
+
+  /** Восстановление состояния при монтировании */
+  useEffect(() => {
+    if (!contractorId) return;
+
+    const savedState = localStorage.getItem("interactions-tab-draft");
+    if (savedState) {
+      const parsed = JSON.parse(savedState);
+      setFilters(parsed.filters || {});
+      setSearchParams(parsed.searchParams || {});
+
+      // Очистка URL
+      const url = new URL(window.location.href);
+      url.searchParams.delete("contractorId");
+      window.history.replaceState({}, "", url.toString());
+    }
+  }, [contractorId]);
+
+  /** Сохраняем состояние */
+  const saveState = () => {
+    const stateToSave = {
+      filters,
+      searchParams,
+      sortData,
+    };
+    localStorage.setItem("interactions-tab-draft", JSON.stringify(stateToSave));
+  };
 
   return (
     <div className="interactions-tab">
@@ -108,6 +138,7 @@ export default function InteractionsTab(props: IInteractionsTabProps) {
               sortData={sortData}
               toggleSort={toggleSort}
               searchParams={searchParams}
+              saveState={saveState}
             />
           </div>
           <div className="interactions-tab__pagination">

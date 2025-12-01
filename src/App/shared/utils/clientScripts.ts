@@ -3,6 +3,7 @@ import {
   IInteractionDetailsItem,
   FilesData,
   InteractionStatus,
+  SendEmailAction,
 } from "../../components/SelectInteraction/InteractionsList/InteractionsListTypes";
 import { TabsItemsCounts } from "../types";
 import { generateRandomInteractionItem } from "./InteractionsListScripts/interactionsGenerator";
@@ -80,24 +81,6 @@ async function setStatusProcessed(interactionId: string | undefined) {
   return;
 }
 
-/** Открыть модальное окно для отправки ответа на email */
-async function toggleSendEmailAnswer(interactionId: string, taskId?: string) {
-  try {
-    alert("Send Answer on: " + interactionId);
-  } catch (e) {
-    throw new Error("Ошибка в функции toggleSendEmailAnswer: " + e);
-  }
-}
-
-/** Открыть модальное окно для отправки ответа на email */
-async function toggleSendEmailForward(interactionId: string, taskId?: string) {
-  try {
-    alert("Forward on: " + interactionId + "taskId: " + taskId);
-  } catch (e) {
-    throw new Error("Ошибка в функции toggleSendEmailForward: " + e);
-  }
-}
-
 /** Получение каналов */
 async function getChannels(): Promise<ObjectItem[]> {
   await randomDelay();
@@ -139,10 +122,6 @@ async function getEmails(): Promise<ObjectItem[]> {
   const emails: ObjectItem[] = [
     new ObjectItem({ code: "test", value: "Телефон" }),
     new ObjectItem({ code: "test1", value: "Email (103@sberins.ru)" }),
-    new ObjectItem({ code: "test2", value: "Email (911@sberins.ru)" }),
-    new ObjectItem({ code: "test3", value: "Email (dms.kurators@sberins.ru)" }),
-    new ObjectItem({ code: "test4", value: "СМС" }),
-    new ObjectItem({ code: "test5", value: "Ручной ввод" }),
   ];
   return emails;
 }
@@ -224,9 +203,43 @@ async function getRequestIdByTaskId(appealId: string): Promise<string> {
 function getIcomingEmailLink(): string {
   return "";
 }
+/** Получить ссылку формы отбора контрагентов */
+function getSelectContractorLink(): string {
+  return "#selectRequestTest";
+}
 
 async function isCurrentUserExecutor(interactionId: string): Promise<boolean> {
   return true;
+}
+
+async function getEmailDataByInteractionId(
+  interactionId: string
+): Promise<SendEmailAction> {
+  return {
+    session: { value: "11", code: "11" },
+    topic: "22",
+    text: "33",
+    filesData: [],
+    contractor: {
+      id: "",
+      fullname: "",
+      emails: ["dgdfdgrg", "frrres"],
+      email: "dgdfdgrg",
+    },
+  };
+}
+
+async function sendEmail(
+  email: string,
+  emailsCopy: string,
+  text: string,
+  recipientId: string,
+  files: any,
+  lineId?: string,
+  sessionId?: string,
+  topic?: string
+): Promise<string | undefined> {
+  return;
 }
 
 export default {
@@ -235,8 +248,6 @@ export default {
   getInteractionsDublicateCount,
   setStatusAtWork,
   setStatusProcessed,
-  toggleSendEmailAnswer,
-  toggleSendEmailForward,
 
   getChannels,
   getLines,
@@ -250,7 +261,11 @@ export default {
   getRequestPagePath,
   getRequestIdByTaskId,
   getIcomingEmailLink,
+  getSelectContractorLink,
+
   isCurrentUserExecutor,
+  getEmailDataByInteractionId,
+  sendEmail,
 
   ...interactionsListScripts,
 };

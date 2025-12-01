@@ -20,6 +20,8 @@ interface IInteractionsListProps extends IInteractionsTabProps {
   sortData: SortData | undefined;
   /** Переключить данные сортировки */
   toggleSort: (fieldCode: string) => void;
+  /** Сохранение состояния вкладки */
+  saveState: () => void;
 }
 
 /** Список взаимодействий */
@@ -30,6 +32,7 @@ export default function InteractionsList({
   sortData,
   toggleSort,
   getInteractions,
+  saveState,
 }: IInteractionsListProps) {
   const [openRowIndex, setOpenRowIndex] = useState<string | undefined>(
     undefined
@@ -123,6 +126,7 @@ export default function InteractionsList({
               items={items}
               setItems={setItems}
               reloadData={reloadItem}
+              saveState={saveState}
             />
           ))}
       </div>

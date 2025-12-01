@@ -20,6 +20,8 @@ type InteractionsListRowProps = {
   reloadData: (id: string) => void;
   items: IInteractionItem[];
   setItems: React.Dispatch<React.SetStateAction<IInteractionItem[]>>;
+  /** Сохранение состояния вкладки */
+  saveState: () => void;
 };
 
 /** Строка взаимодействия */
@@ -30,6 +32,7 @@ export default function InteractionsListRow({
   reloadData,
   items,
   setItems,
+  saveState,
 }: InteractionsListRowProps) {
   const emptyColumn = <ListColumn>–</ListColumn>;
   const unknownColumn = <ListColumn>Неизвестно</ListColumn>;
@@ -134,6 +137,7 @@ export default function InteractionsListRow({
           onClickRowHandler={toggleShowDetails}
           items={items}
           setItems={setItems}
+          saveState={saveState}
         />
       )}
     </>

@@ -20,6 +20,11 @@ export default function SelectInteraction() {
   const [lastResetDate, setLastResetDate] = useState<Date>(new Date());
   /** Обработчик сброса списка и его контролера */
   const handleResetList = () => setLastResetDate(new Date());
+  const [contractorId, setContractorId] = useState<string | null>(null);
+  useEffect(() => {
+    const currentURL = new URL(window.location.href);
+    setContractorId(currentURL.searchParams.get("contractorId"));
+  }, []);
 
   return (
     <div className="select-interaction">
@@ -31,6 +36,7 @@ export default function SelectInteraction() {
       </div>
       <div className="select-interaction__tabs">
         <InteractionsTab
+          contractorId={contractorId || undefined}
           setLoadData={setAddItemsHandler}
           setClearList={setClearItemsHandler}
           setFilteredElementsCount={setFilteredElementsCount}

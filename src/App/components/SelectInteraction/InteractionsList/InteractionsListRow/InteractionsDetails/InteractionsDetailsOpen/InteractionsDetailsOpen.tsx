@@ -14,6 +14,8 @@ interface InteractionsDetailsOpenProps {
   taskId?: string;
   onSave?: () => void;
   reloadData: (id: string) => void;
+  /** Сохранение состояния вкладки */
+  saveState: () => void;
 }
 
 /** Проект комментария */
@@ -23,6 +25,7 @@ function InteractionsDetailsOpen({
   taskId,
   onSave,
   reloadData,
+  saveState,
 }: InteractionsDetailsOpenProps) {
   //Количетсво дублей
   const [countDuplicate, setCountDuplicate] = useState<number | null>(null);
@@ -53,6 +56,7 @@ function InteractionsDetailsOpen({
         data={data}
         interactionId={interactionId}
         taskId={taskId}
+        saveState={saveState}
       />
       <span className="interactions-open-panel__line"></span>
 

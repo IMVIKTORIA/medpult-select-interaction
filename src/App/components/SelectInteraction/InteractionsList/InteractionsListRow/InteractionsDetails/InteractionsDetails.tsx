@@ -21,11 +21,13 @@ interface InteractionsDetailsProps {
   setItems: React.Dispatch<React.SetStateAction<IInteractionItem[]>>;
   /** Идентификатор задачи */
   taskId?: string;
+  /** Сохранение состояния вкладки */
+  saveState: () => void;
 }
 
 /** Детальная форма согласования */
 function InteractionsDetails(props: InteractionsDetailsProps) {
-  const { data, reloadData, items, setItems, taskId } = props;
+  const { data, reloadData, items, setItems, taskId, saveState } = props;
   // Флаг загрузки
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -64,6 +66,7 @@ function InteractionsDetails(props: InteractionsDetailsProps) {
                 taskId={taskId}
                 onSave={fetchInteractionsDetails}
                 reloadData={reloadData}
+                saveState={saveState}
               />
             </div>
           )}

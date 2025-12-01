@@ -18,9 +18,9 @@ export class TabsItemsCounts {
 }
 
 export type FetchData<ItemType = any> = {
-    data: ItemType[],
-    hasMore: boolean,
-}
+  data: ItemType[];
+  hasMore: boolean;
+};
 
 /** Данные сортировки */
 export class SortData {
@@ -35,13 +35,13 @@ export class SortData {
 
 /** Данные поиска */
 export type SearchParams<SearchDataType = any> = {
-    /** Текущая страница */
-    page: number, 
-    /** Количество элементов страницы */
-    size: number,
-    /** Данные сортировки */
-    sortData?: SortData, 
-    /** Данные поиска */
-    searchData?: SearchDataType
-    [property: string]: any;
-}
+  /** Текущая страница */
+  page: number;
+  /** Количество элементов страницы */
+  size: number;
+  /** Данные сортировки */
+  sortData?: SortData;
+  /** Данные поиска */
+  searchData?: SearchDataType;
+  [property: string]: any;
+};
