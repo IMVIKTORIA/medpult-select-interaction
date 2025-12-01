@@ -162,6 +162,7 @@ export default function FilterItemDate({
             value={localTimeFrom}
             setValue={handleTimeFrom}
             placeholder="00:00"
+            width={72}
           />
         </div>
 
@@ -178,6 +179,7 @@ export default function FilterItemDate({
             value={localTimeTo}
             setValue={handleTimeTo}
             placeholder="00:00"
+            width={72}
           />
         </div>
       </div>

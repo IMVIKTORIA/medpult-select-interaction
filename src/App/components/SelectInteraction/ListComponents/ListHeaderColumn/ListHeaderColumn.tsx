@@ -4,11 +4,11 @@ import icons from "../../../../shared/icons";
 
 interface IListHeaderColumnProps extends PropsWithChildren {
   /** Обработчик нажатия на сортировку */
-  handleSortClick?: () => void
+  handleSortClick?: () => void;
   /** Состояние сортировки */
-  sortingState?: SortingState
+  sortingState?: SortingState;
   /** Тултип */
-  tooltip?: string
+  tooltip?: string;
 }
 
 /** Состояние сортировки */
@@ -18,28 +18,32 @@ export enum SortingState {
   /** По убыванию */
   descending,
   /** Не сортируется */
-  unsorted
+  unsorted,
 }
 
 /** Контролер сортировки */
-function SortButton({
-  handleSortClick,
-  sortingState,
-}: IListHeaderColumnProps) {
-  const getAscendingVisibility = () => {
-    if(sortingState == SortingState.ascending || sortingState == SortingState.unsorted) return "visible"
-    return "hidden"
-  }
+function SortButton({ handleSortClick, sortingState }: IListHeaderColumnProps) {
+  const isSorted =
+    sortingState === SortingState.ascending ||
+    sortingState === SortingState.descending;
+  const rotation = sortingState === SortingState.descending ? "180deg" : "0deg";
 
-  const getDescendingVisibility = () => {
-    if(sortingState == SortingState.descending || sortingState == SortingState.unsorted) return "visible"
-    return "hidden"
-  }
-
-  return <button className="list-header-column__button" onClick={handleSortClick}>
-    <span style={{visibility: getAscendingVisibility()}}>{icons.SortArrow}</span>
-    <span style={{visibility: getDescendingVisibility()}}>{icons.SortArrow}</span>
-  </button>
+  return (
+    <button className="list-header-column__button" onClick={handleSortClick}>
+      {isSorted ? (
+        <span
+          style={{
+            transform: `rotate(${rotation})`,
+            transition: "transform 0.2s",
+          }}
+        >
+          {icons.SortArrow}
+        </span>
+      ) : (
+        <span>{icons.SortArrowDefault}</span>
+      )}
+    </button>
+  );
 }
 
 /** Столбец шапки списка */
@@ -51,12 +55,18 @@ export default function ListHeaderColumn({
 }: IListHeaderColumnProps) {
   return (
     <div className="list-header-column">
-      <div className="list-header-column__title" title={tooltip ?? children?.toString()}>{children}</div>
-      { 
-        handleSortClick !== undefined && sortingState !== undefined
-        ? <SortButton handleSortClick={handleSortClick} sortingState={sortingState}/>
-        : null
-      }
+      <div
+        className="list-header-column__title"
+        title={tooltip ?? children?.toString()}
+      >
+        {children}
+      </div>
+      {handleSortClick !== undefined && sortingState !== undefined ? (
+        <SortButton
+          handleSortClick={handleSortClick}
+          sortingState={sortingState}
+        />
+      ) : null}
     </div>
   );
 }

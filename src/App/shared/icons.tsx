@@ -258,14 +258,32 @@ const StatusComplete = (
 
 const SortArrow = (
   <svg
-    width="8"
-    height="12"
-    viewBox="0 0 8 12"
+    width="16"
+    height="16"
+    viewBox="0 0 16 16"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
   >
     <path
-      d="M0.75 7.75L3.75 10.75M3.75 10.75L6.75 7.75M3.75 10.75L3.75 0.75"
+      d="M5 10L8 13M8 13L11 10M8 13L8 3"
+      stroke="#1570EF"
+      stroke-width="1.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+  </svg>
+);
+
+const SortArrowDefault = (
+  <svg
+    width="16"
+    height="16"
+    viewBox="0 0 16 16"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M5 10L8 13M8 13L11 10M8 13L8 3"
       stroke="#A4A7AE"
       stroke-width="1.5"
       stroke-linecap="round"
@@ -297,4 +315,5 @@ export default {
   StatusPostpone,
   StatusComplete,
   SortArrow,
+  SortArrowDefault,
 };

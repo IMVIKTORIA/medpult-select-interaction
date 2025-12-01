@@ -41,6 +41,7 @@ export default function FilterItemWrapper({
           className={`filter-item-wrapper__arrow ${
             isOpen ? "filter-item-wrapper__arrow_open" : null
           }`}
+          style={{ height: "24px" }}
         >
           {icons.arrowIcon}
         </div>

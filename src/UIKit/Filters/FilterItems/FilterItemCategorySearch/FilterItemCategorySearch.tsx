@@ -66,6 +66,7 @@ export default function FilterItemCategorySearch({
         value={searchValue}
         setValue={setSearchValue}
         style={{ marginBottom: "10px" }}
+        placeholder="Поиск"
       />
 
       <div className="filter-item-variants-search">
