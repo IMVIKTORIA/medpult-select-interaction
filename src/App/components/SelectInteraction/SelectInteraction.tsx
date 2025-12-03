@@ -82,7 +82,6 @@ export default function SelectInteraction() {
       hasSearched,
       openedId,
     };
-    console.log("saved сохраняем", state);
     sessionStorage.setItem("interaction_filters", JSON.stringify(state));
     setSavedFilters(filters);
     setSavedHasSearched(hasSearched);
