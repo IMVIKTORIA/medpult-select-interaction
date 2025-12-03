@@ -75,6 +75,9 @@ export default function InteractionsTab(props: IInteractionsTabProps) {
     {}
   );
 
+  // Состояние для отслеживания восстановления фильтров
+  const [isRestoringFilters, setIsRestoringFilters] = useState(false);
+
   useEffect(() => {
     handleResetList();
   }, [searchParams, sortData]);
@@ -95,21 +98,29 @@ export default function InteractionsTab(props: IInteractionsTabProps) {
   const [filters, setFilters] = useState<ISearchInteractionsParams>({});
   // Был ли произведен поиск
   const [hasSearched, setHasSearched] = useState<boolean>(false);
+
   //Применить фильтры
   const applyFiltersHandler = (newFilters: ISearchInteractionsParams) => {
     const cleanedFilters = cleanFilters(newFilters);
     setFilters(cleanedFilters);
     setSearchParams(cleanedFilters);
     setHasSearched(true);
+
+    setIsRestoringFilters(true);
+
+    // Сбрасываем флаг через небольшой таймаут
+    setTimeout(() => setIsRestoringFilters(false), 100);
   };
   //Очистить фильтры
   const clearFiltersHandler = () => {
     setHasSearched(false);
+    setIsRestoringFilters(false);
   };
 
   useEffect(() => {
     if (props.savedFilters) {
       applyFiltersHandler(props.savedFilters);
+      setHasSearched(true);
     }
   }, [props.savedFilters]);
 
@@ -140,6 +151,7 @@ export default function InteractionsTab(props: IInteractionsTabProps) {
             clickFilterHandler={toggleShowFilters}
             setSearchParams={applyFiltersHandler}
             clearSearch={() => clearFiltersHandler()}
+            isRestoringFilters={isRestoringFilters}
           />
         </div>
       )}

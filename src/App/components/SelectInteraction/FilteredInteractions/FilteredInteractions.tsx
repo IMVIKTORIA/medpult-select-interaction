@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useRef } from "react";
 import Scripts from "../../../shared/utils/clientScripts.ts";
 import { ISearchInteractionsParams } from "../InteractionsList/InteractionsListTypes.ts";
 import { ObjectItem } from "../../../../UIKit/Filters/FiltersTypes.ts";
@@ -16,6 +16,7 @@ interface FilteredInteractionsProps {
   clickFilterHandler?: () => void;
   setSearchParams: (filters: ISearchInteractionsParams) => void;
   clearSearch?: () => void;
+  isRestoringFilters?: boolean;
 }
 export default function FilteredInteractions({
   clickFilterHandler,
@@ -23,6 +24,7 @@ export default function FilteredInteractions({
   filters,
   setFilters,
   clearSearch,
+  isRestoringFilters = false,
 }: FilteredInteractionsProps) {
   /** Очистка всех фильтров */
   const clearFilters = () => {
@@ -51,6 +53,29 @@ export default function FilteredInteractions({
   };
 
   useEnterClickHandler(filters, applyFilters);
+
+  const hasAutoAppliedRef = useRef(false);
+
+  // Автоматически применяем фильтры при восстановлении
+  useEffect(() => {
+    if (
+      isRestoringFilters &&
+      Object.keys(filters).length > 0 &&
+      !hasAutoAppliedRef.current
+    ) {
+      hasAutoAppliedRef.current = true;
+      setTimeout(() => {
+        setSearchParams(filters);
+      }, 50);
+    }
+  }, [isRestoringFilters]);
+
+  // Сбрасываем флаг, если восстановление завершилось
+  useEffect(() => {
+    if (!isRestoringFilters) {
+      hasAutoAppliedRef.current = false;
+    }
+  }, [isRestoringFilters]);
 
   /** Каналы */
   const [channels, setChannels] = useState<ObjectItem[]>([]);

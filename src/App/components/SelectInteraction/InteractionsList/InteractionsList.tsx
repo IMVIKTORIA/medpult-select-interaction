@@ -27,6 +27,8 @@ interface IInteractionsListProps extends IInteractionsTabProps {
   /** Открыть Модальное окно пересылки сообщения */
   handleOpenForwardModal: (interactionId: string) => void;
   onForwardClick?: () => void;
+  /** Идентификатор взаимодействия открытого по умолчанию */
+  initialInteractionId: string | undefined;
 }
 
 /** Список взаимодействий */
@@ -41,6 +43,7 @@ export default function InteractionsList({
   handleOpenReplyModal,
   handleOpenForwardModal,
   onForwardClick,
+  initialInteractionId,
 }: IInteractionsListProps) {
   const [openRowIndex, setOpenRowIndex] = useState<string | undefined>(
     undefined
@@ -76,6 +79,12 @@ export default function InteractionsList({
       console.error("Ошибка в функции reloadItem", err);
     }
   };
+
+  useEffect(() => {
+    if (initialInteractionId && items.length > 0) {
+      setOpenRowIndex(initialInteractionId);
+    }
+  }, [initialInteractionId, items]);
 
   return (
     <div className="interactions-list">

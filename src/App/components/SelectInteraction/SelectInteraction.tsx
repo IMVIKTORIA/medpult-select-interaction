@@ -52,7 +52,6 @@ export default function SelectInteraction() {
     const interactionId = currentURL.searchParams.get("interaction_id");
 
     const saved = sessionStorage.getItem("interaction_filters");
-    console.log("saved восстанавливаем", saved);
     if (saved) {
       const state = JSON.parse(saved);
       setSavedFilters(state.filters);
