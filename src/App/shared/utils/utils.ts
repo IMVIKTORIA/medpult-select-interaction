@@ -187,6 +187,23 @@ export function getTaskHref(requestId: string, taskId: string) {
   return href;
 }
 
+// Утилита для очистки фильтров
+export function cleanFilters<T extends Record<string, any>>(
+  filters: T
+): Partial<T> {
+  const cleaned: Partial<T> = {};
+
+  Object.entries(filters).forEach(([key, value]) => {
+    if (value === undefined || value === null) return;
+    if (Array.isArray(value) && value.length === 0) return;
+    if (typeof value === "string" && value.trim() === "") return;
+
+    cleaned[key as keyof T] = value;
+  });
+
+  return cleaned;
+}
+
 export default {
   redirectSPA,
   setRequest,

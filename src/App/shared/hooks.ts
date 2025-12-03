@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { FetchData, SearchParams, SortData } from "./types";
 
 /** Кастмоный хук для обработки сортировки */
@@ -56,11 +56,7 @@ export function useList<ItemType = any, SearchDataType = any>(
   };
 
   /** Добавить значения в список */
-  const loadData = async (
-    page: number,
-    size: number,
-    currentSearchData?: SearchDataType
-  ) => {
+  const loadData = async (page: number, size: number) => {
     if (isLoading) return;
 
     setIsLoading(true);
@@ -69,7 +65,7 @@ export function useList<ItemType = any, SearchDataType = any>(
       page,
       size,
       sortData,
-      searchData: currentSearchData ?? searchData,
+      searchData,
     });
     setItems((itemsBefore) => [...itemsBefore, ...itemsPart]);
     console.log("load");

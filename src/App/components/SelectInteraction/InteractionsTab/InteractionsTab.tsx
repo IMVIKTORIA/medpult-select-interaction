@@ -10,7 +10,8 @@ import { useSort } from "../../../shared/hooks.ts";
 import PageSelector from "../PageSelector/PageSelector.tsx";
 import Button from "../../../../UIKit/Button/Button.tsx";
 import icons from "../../../../UIKit/shared/icons.tsx";
-import Scripts from "../../../shared/utils/clientScripts";
+import { cleanFilters } from "../../../shared/utils/utils.ts";
+//import Scripts from "../../../shared/utils/clientScripts";
 
 export interface IInteractionsTabProps {
   /** Установить обработчик подгрузки данных */
@@ -56,9 +57,6 @@ export interface IInteractionsTabProps {
 
 /** Вкладка взаимодействий */
 export default function InteractionsTab(props: IInteractionsTabProps) {
-  const [searchParams, setSearchParams] = useState<ISearchInteractionsParams>(
-    {}
-  );
   const {
     handleResetList,
     getInteractionsCount,
@@ -70,7 +68,12 @@ export default function InteractionsTab(props: IInteractionsTabProps) {
     filteredElementsCount,
     initialInteractionId,
   } = props;
+
   const { sortData, toggleSort } = useSort();
+
+  const [searchParams, setSearchParams] = useState<ISearchInteractionsParams>(
+    {}
+  );
 
   useEffect(() => {
     handleResetList();
@@ -88,25 +91,25 @@ export default function InteractionsTab(props: IInteractionsTabProps) {
 
   const [isShowFilters, setIsShowFilters] = useState<boolean>(true);
   const toggleShowFilters = () => setIsShowFilters(!isShowFilters);
-
+  // Состояние фильтров
   const [filters, setFilters] = useState<ISearchInteractionsParams>({});
+  // Был ли произведен поиск
   const [hasSearched, setHasSearched] = useState<boolean>(false);
-
+  //Применить фильтры
   const applyFiltersHandler = (newFilters: ISearchInteractionsParams) => {
-    setFilters(newFilters);
-    setSearchParams(newFilters);
+    const cleanedFilters = cleanFilters(newFilters);
+    setFilters(cleanedFilters);
+    setSearchParams(cleanedFilters);
     setHasSearched(true);
   };
+  //Очистить фильтры
   const clearFiltersHandler = () => {
     setHasSearched(false);
   };
 
   useEffect(() => {
     if (props.savedFilters) {
-      console.log("props.savedFilters", props.savedFilters);
-      setFilters(props.savedFilters);
-      setSearchParams(props.savedFilters);
-      setHasSearched(true);
+      applyFiltersHandler(props.savedFilters);
     }
   }, [props.savedFilters]);
 

@@ -48,25 +48,10 @@ export default function InteractionsList({
 
   const { getListColumnProps } = useSortHandlers(sortData, toggleSort);
 
-  // const getInteractionsHandler = async (
-  //   searchParams: SearchParams<ISearchInteractionsParams>
-  // ): Promise<IInteractionItem[]> => {
-  //   const interactions = await getInteractions(searchParams);
-  //   return interactions;
-  // };
-
   const getInteractionsHandler = async (
-    params: SearchParams<ISearchInteractionsParams>
+    searchParams: SearchParams<ISearchInteractionsParams>
   ): Promise<IInteractionItem[]> => {
-    const paramsSearch: SearchParams<ISearchInteractionsParams> = {
-      page: params.page ?? 0,
-      size: params.size ?? 20,
-      sortData: params.sortData,
-      searchData: searchParams,
-    };
-
-    console.log("getInteractionsHandler paramsSearch:", paramsSearch);
-    const interactions = await getInteractions(paramsSearch);
+    const interactions = await getInteractions(searchParams);
     return interactions;
   };
 
@@ -79,7 +64,7 @@ export default function InteractionsList({
   useEffect(() => {
     setLoadData(() => loadData);
     setClearList(() => clearList);
-  }, [searchParams, sortData]);
+  }, [loadData, clearList]);
 
   // обновить данные взаимодейтсвия
   const reloadItem = async (id: string) => {
