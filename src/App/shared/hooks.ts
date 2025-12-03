@@ -56,7 +56,11 @@ export function useList<ItemType = any, SearchDataType = any>(
   };
 
   /** Добавить значения в список */
-  const loadData = async (page: number, size: number) => {
+  const loadData = async (
+    page: number,
+    size: number,
+    currentSearchData?: SearchDataType
+  ) => {
     if (isLoading) return;
 
     setIsLoading(true);
@@ -65,7 +69,7 @@ export function useList<ItemType = any, SearchDataType = any>(
       page,
       size,
       sortData,
-      searchData,
+      searchData: currentSearchData ?? searchData,
     });
     setItems((itemsBefore) => [...itemsBefore, ...itemsPart]);
     console.log("load");

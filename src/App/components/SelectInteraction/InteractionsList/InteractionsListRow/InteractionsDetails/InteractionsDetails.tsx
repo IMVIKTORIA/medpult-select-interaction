@@ -21,13 +21,25 @@ interface InteractionsDetailsProps {
   setItems: React.Dispatch<React.SetStateAction<IInteractionItem[]>>;
   /** Идентификатор задачи */
   taskId?: string;
-  /** Сохранение состояния вкладки */
-  saveState: () => void;
+  /** Открыть Модальное окно ответа на сообщение */
+  handleOpenReplyModal: (interactionId: string) => void;
+  /** Открыть Модальное окно пересылки сообщения */
+  handleOpenForwardModal: (interactionId: string) => void;
+  onForwardClick?: () => void;
 }
 
 /** Детальная форма согласования */
 function InteractionsDetails(props: InteractionsDetailsProps) {
-  const { data, reloadData, items, setItems, taskId, saveState } = props;
+  const {
+    data,
+    reloadData,
+    items,
+    setItems,
+    taskId,
+    handleOpenReplyModal,
+    handleOpenForwardModal,
+    onForwardClick,
+  } = props;
   // Флаг загрузки
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -66,7 +78,9 @@ function InteractionsDetails(props: InteractionsDetailsProps) {
                 taskId={taskId}
                 onSave={fetchInteractionsDetails}
                 reloadData={reloadData}
-                saveState={saveState}
+                handleOpenReplyModal={handleOpenReplyModal}
+                handleOpenForwardModal={handleOpenForwardModal}
+                onForwardClick={onForwardClick}
               />
             </div>
           )}

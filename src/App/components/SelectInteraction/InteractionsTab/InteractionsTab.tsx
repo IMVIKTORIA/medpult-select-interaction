@@ -33,13 +33,25 @@ export interface IInteractionsTabProps {
   hideEmployeeFilter?: boolean;
   /** Обработчик сброса списка и его контролера */
   handleResetList: () => void;
-
   elementsCount: number;
   clearItemsHandler: () => void;
   addItemsHandler: (page: number, size: number) => Promise<void>;
   resetTrigger: Date;
   filteredElementsCount: number;
-  contractorId?: string;
+  /** Открыть Модальное окно ответа на сообщение */
+  handleOpenReplyModal: (interactionId: string) => void;
+  /** Открыть Модальное окно пересылки сообщения */
+  handleOpenForwardModal: (interactionId: string) => void;
+  /** Идентификатор взаимодействия открытого по умолчанию */
+  initialInteractionId: string | undefined;
+
+  savedFilters?: ISearchInteractionsParams | null;
+  savedHasSearched?: boolean;
+  saveListState?: (
+    filters: ISearchInteractionsParams,
+    hasSearched: boolean,
+    openedId?: string
+  ) => void;
 }
 
 /** Вкладка взаимодействий */
@@ -47,7 +59,6 @@ export default function InteractionsTab(props: IInteractionsTabProps) {
   const [searchParams, setSearchParams] = useState<ISearchInteractionsParams>(
     {}
   );
-
   const {
     handleResetList,
     getInteractionsCount,
@@ -57,7 +68,7 @@ export default function InteractionsTab(props: IInteractionsTabProps) {
     addItemsHandler,
     resetTrigger,
     filteredElementsCount,
-    contractorId,
+    initialInteractionId,
   } = props;
   const { sortData, toggleSort } = useSort();
 
@@ -79,8 +90,8 @@ export default function InteractionsTab(props: IInteractionsTabProps) {
   const toggleShowFilters = () => setIsShowFilters(!isShowFilters);
 
   const [filters, setFilters] = useState<ISearchInteractionsParams>({});
+  const [hasSearched, setHasSearched] = useState<boolean>(false);
 
-  const [hasSearched, setHasSearched] = useState(false);
   const applyFiltersHandler = (newFilters: ISearchInteractionsParams) => {
     setFilters(newFilters);
     setSearchParams(newFilters);
@@ -90,31 +101,18 @@ export default function InteractionsTab(props: IInteractionsTabProps) {
     setHasSearched(false);
   };
 
-  /** Восстановление состояния при монтировании */
   useEffect(() => {
-    if (!contractorId) return;
-
-    const savedState = localStorage.getItem("interactions-tab-draft");
-    if (savedState) {
-      const parsed = JSON.parse(savedState);
-      setFilters(parsed.filters || {});
-      setSearchParams(parsed.searchParams || {});
-
-      // Очистка URL
-      const url = new URL(window.location.href);
-      url.searchParams.delete("contractorId");
-      window.history.replaceState({}, "", url.toString());
+    if (props.savedFilters) {
+      console.log("props.savedFilters", props.savedFilters);
+      setFilters(props.savedFilters);
+      setSearchParams(props.savedFilters);
+      setHasSearched(true);
     }
-  }, [contractorId]);
+  }, [props.savedFilters]);
 
-  /** Сохраняем состояние */
-  const saveState = () => {
-    const stateToSave = {
-      filters,
-      searchParams,
-      sortData,
-    };
-    localStorage.setItem("interactions-tab-draft", JSON.stringify(stateToSave));
+  // При клике на "Переслать" вызываем сохранение состояния
+  const handleForwardClick = () => {
+    props.saveListState?.(filters, hasSearched);
   };
 
   return (
@@ -150,8 +148,8 @@ export default function InteractionsTab(props: IInteractionsTabProps) {
               sortData={sortData}
               toggleSort={toggleSort}
               searchParams={searchParams}
-              saveState={saveState}
               hasSearched={hasSearched}
+              onForwardClick={handleForwardClick}
             />
           </div>
           <div className="interactions-tab__pagination">

@@ -3,12 +3,12 @@ import {
   IInteractionDetailsItem,
   FilesData,
   InteractionStatus,
-  SendEmailAction,
 } from "../../components/SelectInteraction/InteractionsList/InteractionsListTypes";
 import { TabsItemsCounts } from "../types";
 import { generateRandomInteractionItem } from "./InteractionsListScripts/interactionsGenerator";
 import { ObjectItem } from "../../../UIKit/Filters/FiltersTypes";
 import interactionsListScripts from "./InteractionsListScripts/InteractionsListScripts";
+import { SendEmailAction } from "../../components/SelectInteraction/InteractionsList/SendEmailModal/SendEmailModalTypes";
 
 /** Заглушка ожидания ответа сервера */
 function randomDelay() {
@@ -229,6 +229,20 @@ async function getEmailDataByInteractionId(
   };
 }
 
+/** Получение данных контрагента по его идентификатору */
+async function getEmailDataByContractorId(
+  contractorId: string
+): Promise<SendEmailAction> {
+  return {
+    contractor: {
+      id: "contractorId",
+      fullname: "Иванов Иван",
+      emails: ["foo@gmail.com", "bar@gmail.com"],
+      email: "foo@gmail.com",
+    },
+  };
+}
+
 async function sendEmail(
   email: string,
   emailsCopy: string,
@@ -265,6 +279,7 @@ export default {
 
   isCurrentUserExecutor,
   getEmailDataByInteractionId,
+  getEmailDataByContractorId,
   sendEmail,
 
   ...interactionsListScripts,

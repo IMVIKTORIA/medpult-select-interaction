@@ -22,8 +22,11 @@ interface IInteractionsListProps extends IInteractionsTabProps {
   toggleSort: (fieldCode: string) => void;
   /** Был ли поиск */
   hasSearched: boolean;
-  /** Сохранение состояния вкладки */
-  saveState: () => void;
+  /** Открыть Модальное окно ответа на сообщение */
+  handleOpenReplyModal: (interactionId: string) => void;
+  /** Открыть Модальное окно пересылки сообщения */
+  handleOpenForwardModal: (interactionId: string) => void;
+  onForwardClick?: () => void;
 }
 
 /** Список взаимодействий */
@@ -34,8 +37,10 @@ export default function InteractionsList({
   sortData,
   toggleSort,
   getInteractions,
-  saveState,
   hasSearched,
+  handleOpenReplyModal,
+  handleOpenForwardModal,
+  onForwardClick,
 }: IInteractionsListProps) {
   const [openRowIndex, setOpenRowIndex] = useState<string | undefined>(
     undefined
@@ -43,10 +48,25 @@ export default function InteractionsList({
 
   const { getListColumnProps } = useSortHandlers(sortData, toggleSort);
 
+  // const getInteractionsHandler = async (
+  //   searchParams: SearchParams<ISearchInteractionsParams>
+  // ): Promise<IInteractionItem[]> => {
+  //   const interactions = await getInteractions(searchParams);
+  //   return interactions;
+  // };
+
   const getInteractionsHandler = async (
-    searchParams: SearchParams<ISearchInteractionsParams>
+    params: SearchParams<ISearchInteractionsParams>
   ): Promise<IInteractionItem[]> => {
-    const interactions = await getInteractions(searchParams);
+    const paramsSearch: SearchParams<ISearchInteractionsParams> = {
+      page: params.page ?? 0,
+      size: params.size ?? 20,
+      sortData: params.sortData,
+      searchData: searchParams,
+    };
+
+    console.log("getInteractionsHandler paramsSearch:", paramsSearch);
+    const interactions = await getInteractions(paramsSearch);
     return interactions;
   };
 
@@ -133,7 +153,9 @@ export default function InteractionsList({
               items={items}
               setItems={setItems}
               reloadData={reloadItem}
-              saveState={saveState}
+              handleOpenReplyModal={handleOpenReplyModal}
+              handleOpenForwardModal={handleOpenForwardModal}
+              onForwardClick={onForwardClick}
             />
           ))}
       </div>

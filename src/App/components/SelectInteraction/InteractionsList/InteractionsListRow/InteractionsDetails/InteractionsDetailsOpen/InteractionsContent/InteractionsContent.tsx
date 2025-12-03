@@ -5,14 +5,12 @@ import icons from "../../../../icons";
 import {
   IInteractionDetailsItem,
   FilesData,
-  SendEmailAction,
 } from "../../../../InteractionsListTypes";
 import FilesDropdown from "./FilesDropdown/FilesDropdown";
 import Scripts from "../../../../../../../shared/utils/clientScripts";
 import utils, {
   onClickDownloadFileByUrl,
 } from "../../../../../../../shared/utils/utils";
-import SendEmailModal from "../../SendEmailModal/SendEmailModal";
 
 /** Пропсы */
 interface InteractionsContentProps {
@@ -21,14 +19,19 @@ interface InteractionsContentProps {
   interactionId: string;
   /** Идентификатор задачи */
   taskId?: string;
-  /** Сохранение состояния вкладки */
-  saveState: () => void;
+  /** Открыть Модальное окно ответа на сообщение */
+  handleOpenReplyModal: (interactionId: string) => void;
+  /** Открыть Модальное окно пересылки сообщения */
+  handleOpenForwardModal: (interactionId: string) => void;
+  onForwardClick?: () => void;
 }
 
 function InteractionsContent({
   data,
   interactionId,
-  saveState,
+  handleOpenReplyModal,
+  handleOpenForwardModal,
+  onForwardClick,
 }: InteractionsContentProps) {
   /** Выпадающий список для файлов */
   const [isDropdownOpen, setDropdownOpen] = useState(false);
@@ -47,41 +50,15 @@ function InteractionsContent({
     }
   };
 
-  // Состояние для открытия модального окна
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modalMode, setModalMode] = useState<"reply" | "forward" | null>(null);
-  const [modalData, setModalData] = useState<
-    Partial<SendEmailAction> | undefined
-  >(undefined);
-
-  // Закрытие модалки
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
-
   /** Обработка нажатия на кнопку ответить */
   const handleReplyClick = async () => {
-    const data = await Scripts.getEmailDataByInteractionId(interactionId);
-    console.log("data", data);
-    setModalData({
-      text: data.text,
-      contractor: data.contractor,
-      session: data.session,
-    });
-    setModalMode("reply");
-    setIsModalOpen(true);
+    handleOpenReplyModal(data.id);
   };
+
   /** Обработка нажатия на кнопку переслать */
   const handleForwardClick = async () => {
-    const data = await Scripts.getEmailDataByInteractionId(interactionId);
-    console.log("data", data);
-    setModalData({
-      text: data.text,
-      topic: data.topic,
-      filesData: data.filesData,
-    });
-    setModalMode("forward");
-    setIsModalOpen(true);
+    if (onForwardClick) onForwardClick();
+    handleOpenForwardModal(data.id);
   };
 
   /** Получение иконки по статусу взаимодействия */
@@ -235,17 +212,6 @@ function InteractionsContent({
           ) : null}
         </span>
       </InteractionField>
-
-      {/* Модальное окно */}
-      {isModalOpen && (
-        <SendEmailModal
-          interactionId={data.id}
-          closeModal={closeModal}
-          mode={modalMode}
-          initialData={modalData}
-          saveState={saveState}
-        />
-      )}
     </div>
   );
 }

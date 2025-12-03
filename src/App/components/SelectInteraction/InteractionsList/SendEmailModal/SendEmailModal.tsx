@@ -1,24 +1,15 @@
 import React, { useRef, useState, useEffect } from "react";
-import ModalWrapper from "../InteractionsDetailsOpen/InteractionsExecutor/ModalExecutor/ModalWrapper/ModalWrapper";
-import icons from "../../../icons";
-import CustomInput from "../../../../../../../UIKit/CustomInput/CustomInput";
-import CustomInputAppItem from "../../../../../../../UIKit/CustomInputAppItem/CustomInputAppItem";
-import CustomSelect from "../../../../../../../UIKit/CustomSelect/CustomSelect";
-import Button from "../../../../../../../UIKit/Button/Button";
-import Scripts from "../../../../../../shared/utils/clientScripts";
+import ModalWrapper from "../InteractionsListRow/InteractionsDetails/InteractionsDetailsOpen/InteractionsExecutor/ModalExecutor/ModalWrapper/ModalWrapper";
+import icons from "../icons";
+import CustomInput from "../../../../../UIKit/CustomInput/CustomInput";
+import CustomInputAppItem from "../../../../../UIKit/CustomInputAppItem/CustomInputAppItem";
+import CustomSelect from "../../../../../UIKit/CustomSelect/CustomSelect";
+import Button from "../../../../../UIKit/Button/Button";
+import Scripts from "../../../../shared/utils/clientScripts";
 import TextEditor from "./TextEditor/TextEditor";
 import FileUploader from "./FileUploader/FileUploader";
-import { ObjectItem } from "../../../../../../../UIKit/Filters/FiltersTypes";
-import { SendEmailAction } from "../../../InteractionsListTypes";
-
-interface SendEmailModalProps {
-  interactionId: string;
-  closeModal: () => void;
-  mode: "reply" | "forward" | null;
-  initialData?: Partial<SendEmailAction>;
-  /** Сохранение состояния вкладки */
-  saveState: () => void;
-}
+import { ObjectItem } from "../../../../../UIKit/Filters/FiltersTypes";
+import { SendEmailAction, SendEmailModalProps } from "./SendEmailModalTypes";
 
 export default function SendEmailModal({
   interactionId,
@@ -47,6 +38,7 @@ export default function SendEmailModal({
     setText(initialData.text || "");
 
     if (mode === "forward") {
+      setRecipient(initialData.contractor?.fullname || "");
       setFiles(initialData.filesData?.map((f) => new File([], f.name)) || []);
       setTopic(initialData.topic || "");
     }
@@ -73,7 +65,10 @@ export default function SendEmailModal({
   const selectContractorHref = (() => {
     const baseLink = Scripts.getSelectContractorLink();
     const url = new URL(window.location.origin + "/" + baseLink);
+
     url.searchParams.set("field_id", "select-interaction-contractors");
+    url.searchParams.set("interaction_id", interactionId);
+
     return url.toString();
   })();
 
