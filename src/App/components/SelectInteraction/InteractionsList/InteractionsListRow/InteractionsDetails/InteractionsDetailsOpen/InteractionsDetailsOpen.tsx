@@ -71,6 +71,7 @@ function InteractionsDetailsOpen({
       <InteractionsExecutor
         data={data}
         onSave={onSave}
+        reloadData={reloadData}
         duplicateCount={countDuplicate ? countDuplicate : undefined}
       />
       <span className="interactions-open-panel__line"></span>

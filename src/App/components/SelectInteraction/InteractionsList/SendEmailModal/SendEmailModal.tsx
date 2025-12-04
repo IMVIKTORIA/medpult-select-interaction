@@ -58,6 +58,7 @@ export default function SendEmailModal({
       const sessionsList = sessionValue ? [sessionValue] : [];
       setSessionOptions([...sessionsList, { value: "Новая сессия", code: "" }]);
       setSession(sessionValue);
+      setCopyEmails(initialData.emailsCopy || "");
     }
   }, [initialData, mode]);
 

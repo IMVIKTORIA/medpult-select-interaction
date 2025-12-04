@@ -15,12 +15,14 @@ interface InteractionsExecutorProps {
   data: IInteractionDetailsItem;
   onSave?: () => void;
   duplicateCount?: number;
+  reloadData: (id: string) => void;
 }
 
 function InteractionsExecutor({
   data,
   onSave,
   duplicateCount,
+  reloadData,
 }: InteractionsExecutorProps) {
   // Состояние для открытия модального окна
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -158,6 +160,7 @@ function InteractionsExecutor({
           closeModal={closeModal}
           initialGroup={data.group || null}
           initialEmployee={data.employee || null}
+          reloadData={reloadData}
           onSave={() => {
             closeModal();
             onSave?.();

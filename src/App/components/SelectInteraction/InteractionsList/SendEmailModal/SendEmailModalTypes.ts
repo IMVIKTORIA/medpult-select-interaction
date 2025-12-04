@@ -31,6 +31,8 @@ export interface SendEmailAction {
   filesData?: FileData[];
   /** Тема письма */
   topic?: string;
+  /** Почты получателей копии */
+  emailsCopy?: string;
 }
 
 export interface SendEmailModalProps {

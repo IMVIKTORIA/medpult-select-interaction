@@ -40,6 +40,7 @@ export function useEmailModalController() {
         contractor: data.contractor,
         session: data.session,
         topic: data.topic,
+        emailsCopy: data.emailsCopy,
       },
     });
 

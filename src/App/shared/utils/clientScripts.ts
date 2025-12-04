@@ -226,6 +226,7 @@ async function getEmailDataByInteractionId(
       emails: ["dgdfdgrg", "frrres"],
       email: "dgdfdgrg",
     },
+    emailsCopy: "ffdffd",
   };
 }
 
