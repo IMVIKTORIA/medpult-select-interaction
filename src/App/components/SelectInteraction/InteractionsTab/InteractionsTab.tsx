@@ -10,7 +10,7 @@ import { useSort } from "../../../shared/hooks.ts";
 import PageSelector from "../PageSelector/PageSelector.tsx";
 import Button from "../../../../UIKit/Button/Button.tsx";
 import icons from "../../../../UIKit/shared/icons.tsx";
-import { cleanFilters, hasAnyFilter } from "../../../shared/utils/utils.ts";
+import { cleanFilters } from "../../../shared/utils/utils.ts";
 import Scripts from "../../../shared/utils/clientScripts";
 
 export interface IInteractionsTabProps {
@@ -175,7 +175,7 @@ export default function InteractionsTab(props: IInteractionsTabProps) {
               resetTrigger={resetTrigger}
               filteredElementsCount={filteredElementsCount}
               //isVisible={filteredElementsCount > 20}
-              isVisible={hasSearched && hasAnyFilter(filters)}
+              isVisible={hasSearched && filteredElementsCount > 0}
             />
           </div>
         </div>

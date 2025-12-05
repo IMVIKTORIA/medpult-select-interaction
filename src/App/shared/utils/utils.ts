@@ -204,15 +204,6 @@ export function cleanFilters<T extends Record<string, any>>(
 
   return cleaned;
 }
-// Есть ли филтьр
-export function hasAnyFilter(filters: ISearchInteractionsParams) {
-  return Object.values(filters).some((value) => {
-    if (Array.isArray(value)) return value.length > 0;
-    if (typeof value === "string") return value.trim() !== "";
-    if (typeof value === "boolean") return value === true;
-    return value !== undefined && value !== null;
-  });
-}
 
 export default {
   redirectSPA,
