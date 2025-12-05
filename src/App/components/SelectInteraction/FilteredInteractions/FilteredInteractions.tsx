@@ -215,7 +215,7 @@ export default function FilteredInteractions({
           />
 
           <FilterItemCategory
-            title="Email"
+            title="Почта"
             variants={emails}
             filterValue={filters.email || []}
             setFilterValue={(val) =>

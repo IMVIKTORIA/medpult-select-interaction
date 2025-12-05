@@ -38,7 +38,14 @@ function InteractionsHeader(props: InteractionsHeaderProps) {
     const link = Scripts.getIcomingEmailLink();
     const redirectUrl = new URL(window.location.origin + "/" + link);
     if (email) redirectUrl.searchParams.set("email", email);
+    if (data.id) redirectUrl.searchParams.set("interactionId", data.id);
     window.open(redirectUrl.toString(), "_blank");
+  };
+
+  /** Обработка нажатия на кнопку Сохранить */
+  const onTakeSaveClick = async () => {
+    onSave?.();
+    reloadData?.(data.id);
   };
 
   /** Обработка нажатия на кнопку В работу */
@@ -105,6 +112,15 @@ function InteractionsHeader(props: InteractionsHeaderProps) {
             disabled={data.status.code === InteractionStatus.processed}
           />
         )}
+
+        <CustomButton
+          title={`Сохранить${duplicateCount ? ` (${duplicateCount})` : ""}`}
+          clickHandler={onTakeSaveClick}
+          svg={icons.saveIcon}
+          svgPosition="left"
+          disabled={data.status.code === InteractionStatus.processed}
+        />
+
         {data.status.code === InteractionStatus.atWork && (
           <CustomButton
             buttonType="outline"

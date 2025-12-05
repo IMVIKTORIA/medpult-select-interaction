@@ -11,7 +11,7 @@ import PageSelector from "../PageSelector/PageSelector.tsx";
 import Button from "../../../../UIKit/Button/Button.tsx";
 import icons from "../../../../UIKit/shared/icons.tsx";
 import { cleanFilters } from "../../../shared/utils/utils.ts";
-//import Scripts from "../../../shared/utils/clientScripts";
+import Scripts from "../../../shared/utils/clientScripts";
 
 export interface IInteractionsTabProps {
   /** Установить обработчик подгрузки данных */

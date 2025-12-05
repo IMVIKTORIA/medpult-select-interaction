@@ -88,7 +88,7 @@ type PageSelectorProps = {
   /** Триггер для сброса списка */
   resetTrigger: Date;
   /** Видна ли разметка */
-  isVisible: boolean;
+  isVisible?: boolean;
 };
 
 /** Выбор страницы */
