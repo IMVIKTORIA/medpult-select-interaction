@@ -257,6 +257,13 @@ async function sendEmail(
   return;
 }
 
+async function validateEmployeeForGroup(
+  groupId: string,
+  userId: string
+): Promise<boolean> {
+  return false;
+}
+
 export default {
   getInteractionById,
   getInteractionsDetails,
@@ -279,6 +286,7 @@ export default {
   getSelectContractorLink,
 
   isCurrentUserExecutor,
+  validateEmployeeForGroup,
   getEmailDataByInteractionId,
   getEmailDataByContractorId,
   sendEmail,
