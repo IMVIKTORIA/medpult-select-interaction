@@ -11,6 +11,8 @@ interface FilterItemDateProps {
   valueTo?: string;
   timeFrom?: string;
   timeTo?: string;
+  errorFrom?: string;
+  errorTo?: string;
   onChange: (val: {
     dateFrom?: string;
     dateTo?: string;
@@ -26,6 +28,8 @@ export default function FilterItemDate({
   timeFrom,
   timeTo,
   onChange,
+  errorFrom,
+  errorTo,
 }: FilterItemDateProps) {
   const [localTimeFrom, setLocalTimeFrom] = useState(timeFrom ?? "");
   const [localTimeTo, setLocalTimeTo] = useState(timeTo ?? "");
@@ -45,11 +49,6 @@ export default function FilterItemDate({
     fromDate: Date | null,
     toDate: Date | null
   ): boolean => {
-    if (fromDate && toDate && toDate < fromDate) {
-      showError("'Дата по' не может быть раньше 'Даты с'");
-      setIsInvalidDateTo(true);
-      return false;
-    }
     return true;
   };
 
@@ -156,6 +155,7 @@ export default function FilterItemDate({
             value={valueFrom || ""}
             setValue={handleDateFrom}
             placeholder="с"
+            style={errorFrom ? { borderColor: "#D92D20" } : undefined}
           />
           <CustomInput
             type="text"
@@ -171,8 +171,8 @@ export default function FilterItemDate({
             type="date"
             value={valueTo || ""}
             setValue={handleDateTo}
-            //  isInvalid={isInvalidDateTo}
             placeholder="по"
+            style={errorTo ? { borderColor: "#D92D20" } : undefined}
           />
           <CustomInput
             type="text"
@@ -182,6 +182,9 @@ export default function FilterItemDate({
             width={72}
           />
         </div>
+        {(errorFrom || errorTo) && (
+          <div className="filter-item-date__error">Укажите дату</div>
+        )}
       </div>
     </FilterItemWrapper>
   );

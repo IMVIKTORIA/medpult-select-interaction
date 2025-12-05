@@ -34,6 +34,8 @@ export default function FilteredInteractions({
     setGroupSearch("");
     setUserSearch("");
     setPhoneError("");
+    setDateFromError(false);
+    setDateToError(false);
 
     setSearchParams(empty);
 
@@ -44,11 +46,29 @@ export default function FilteredInteractions({
 
   /** Применить все фильтры */
   const applyFilters = async () => {
+    let hasError = false;
     if (!validatePhone(filters.phone || "")) {
       setPhoneError("Введен некорректный номер");
       return;
     }
     setPhoneError("");
+    // Валидация даты
+    if (filters.timeFrom && !filters.dateFrom) {
+      setDateFromError(true);
+      hasError = true;
+    } else {
+      setDateFromError(false);
+    }
+
+    if (filters.timeTo && !filters.dateTo) {
+      setDateToError(true);
+      hasError = true;
+    } else {
+      setDateToError(false);
+    }
+
+    if (hasError) return;
+
     setSearchParams(filters);
   };
 
@@ -117,6 +137,8 @@ export default function FilteredInteractions({
 
   // Состояние ошибки телефона
   const [phoneError, setPhoneError] = useState("");
+  const [dateFromError, setDateFromError] = useState(false);
+  const [dateToError, setDateToError] = useState(false);
   /** Проверка телефона на корректность */
   const validatePhone = (phone: string) => {
     const digits = phone.replace(/\D/g, "");
@@ -192,6 +214,8 @@ export default function FilteredInteractions({
                 ...val,
               }))
             }
+            errorFrom={dateFromError ? "Укажите дату" : undefined}
+            errorTo={dateToError ? "Укажите дату" : undefined}
           />
 
           <FilterItemCategory

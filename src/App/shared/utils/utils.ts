@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { localStorageDraftKey } from "./constants";
 import icons from "../icons";
 import Scripts from "./clientScripts";
+import { ISearchInteractionsParams } from "../../components/SelectInteraction/InteractionsList/InteractionsListTypes";
 
 /** Маршрутизация по SPA */
 export const redirectSPA = (href: string) => {
@@ -202,6 +203,15 @@ export function cleanFilters<T extends Record<string, any>>(
   });
 
   return cleaned;
+}
+// Есть ли филтьр
+export function hasAnyFilter(filters: ISearchInteractionsParams) {
+  return Object.values(filters).some((value) => {
+    if (Array.isArray(value)) return value.length > 0;
+    if (typeof value === "string") return value.trim() !== "";
+    if (typeof value === "boolean") return value === true;
+    return value !== undefined && value !== null;
+  });
 }
 
 export default {
