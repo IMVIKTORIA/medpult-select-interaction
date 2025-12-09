@@ -156,6 +156,8 @@ export interface IInteractionDetailsItem {
   topic: string;
   /** Текст письма */
   text: string;
+  /** Входящее? */
+  isIncoming: boolean
 }
 
 /** Параметры поиска Взаимодействий */

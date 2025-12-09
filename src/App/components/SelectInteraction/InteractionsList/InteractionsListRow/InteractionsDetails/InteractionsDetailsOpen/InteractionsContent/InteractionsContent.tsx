@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import CustomButton from "../../../../../../../../UIKit/Button/CustomButton/CustomButton";
+import React, { useState } from "react";
 import InteractionField from "../InteractionsField/InteractionField";
 import icons from "../../../../icons";
 import {
@@ -7,8 +6,7 @@ import {
   FilesData,
 } from "../../../../InteractionsListTypes";
 import FilesDropdown from "./FilesDropdown/FilesDropdown";
-import Scripts from "../../../../../../../shared/utils/clientScripts";
-import utils, {
+import {
   onClickDownloadFileByUrl,
 } from "../../../../../../../shared/utils/utils";
 
@@ -79,28 +77,45 @@ function InteractionsContent({
     }
   };
 
+  const contractorLayout = (
+    <>
+      <span className="interactions-open-panel-content__value">
+        {data.fioFrom}
+      </span>
+      <span
+        className="interactions-open-panel-content__value"
+        title={data.email}
+      >{data.email}</span>
+    </>
+  )
+
+  const systemLayout = (
+    <span
+      className="interactions-open-panel-content__value"
+      title={
+        Array.isArray(data.fioWhom) ? data.fioWhom.join(", ") : data.fioWhom
+      }
+    >
+      {data.fioWhom}
+    </span>
+  )
+
   return (
     <div className="interactions-open-panel-content">
       {/* От Кого */}
       <InteractionField label="От кого">
         <span className="interactions-open-panel-content__object">
-          <span className="interactions-open-panel-content__value">
-            {data.fioFrom}
-          </span>
-          <span
-            className="interactions-open-panel-content__value"
-            title={data.email}
-          ></span>
+          {data.isIncoming ? contractorLayout : systemLayout}
           <div className="interactions-open-panel-content__buttons">
             {/* Кнопка Ответить*/}
-            <div
+            {data.isIncoming && <div
               onClick={handleReplyClick}
               className="interactions-open-panel-content__buttons_button"
             >
               {icons.replyIcon}Ответить
-            </div>
+            </div>}
             {/* Кнопка Ответить всем*/}
-            {data.copy[0] != "" && (
+            {data.isIncoming && data.copy[0] != "" && (
               <div
                 onClick={handleReplyClick}
                 className="interactions-open-panel-content__buttons_button"
@@ -121,14 +136,7 @@ function InteractionsContent({
 
       {/* Кому*/}
       <InteractionField label="Кому">
-        <span
-          className="interactions-open-panel-content__value"
-          title={
-            Array.isArray(data.fioWhom) ? data.fioWhom.join(", ") : data.fioWhom
-          }
-        >
-          {data.fioWhom}
-        </span>
+        {data.isIncoming ? systemLayout : contractorLayout}
       </InteractionField>
 
       {/* Копия*/}
