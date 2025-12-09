@@ -67,7 +67,7 @@ export default function InteractionsList({
   useEffect(() => {
     setLoadData(() => loadData);
     setClearList(() => clearList);
-  }, [loadData, clearList]);
+  }, [searchParams, sortData]);
 
   // обновить данные взаимодейтсвия
   const reloadItem = async (id: string) => {
