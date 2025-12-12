@@ -76,8 +76,8 @@ export default function FilteredInteractions({
 
   const hasAutoAppliedRef = useRef(false);
 
-  // Автоматически применяем фильтры при восстановлении
   useEffect(() => {
+    // Автоматически применяем фильтры при восстановлении
     if (
       isRestoringFilters &&
       Object.keys(filters).length > 0 &&
@@ -88,14 +88,14 @@ export default function FilteredInteractions({
         setSearchParams(filters);
       }, 50);
     }
-  }, [isRestoringFilters]);
 
-  // Сбрасываем флаг, если восстановление завершилось
-  useEffect(() => {
+    
+    // Сбрасываем флаг, если восстановление завершилось
     if (!isRestoringFilters) {
       hasAutoAppliedRef.current = false;
     }
   }, [isRestoringFilters]);
+
 
   /** Каналы */
   const [channels, setChannels] = useState<ObjectItem[]>([]);

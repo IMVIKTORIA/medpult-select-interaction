@@ -124,12 +124,12 @@ function InteractionsContent({
               </div>
             )}
             {/* Кнопка переслать*/}
-            <div
+            {/* <div
               onClick={handleForwardClick}
               className="interactions-open-panel-content__buttons_button"
             >
               {icons.forwardIcon}Переслать
-            </div>
+            </div> */}
           </div>
         </span>
       </InteractionField>

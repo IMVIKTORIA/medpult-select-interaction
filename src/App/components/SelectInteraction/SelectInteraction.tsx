@@ -18,9 +18,7 @@ export default function SelectInteraction() {
   const [clearItemsHandler, setClearItemsHandler] = useState<() => void>(
     () => () => {}
   );
-  const [addItemsHandler, setAddItemsHandler] = useState<
-    (page: number, size: number) => Promise<void>
-  >(() => async (page: number, size: number) => {});
+  const [addItemsHandler, setAddItemsHandler] = useState<(page: number, size: number) => Promise<void>>(() => async (page: number, size: number) => {});
   const [filteredElementsCount, setFilteredElementsCount] = useState<number>(0);
 
   const [lastResetDate, setLastResetDate] = useState<Date>(new Date());

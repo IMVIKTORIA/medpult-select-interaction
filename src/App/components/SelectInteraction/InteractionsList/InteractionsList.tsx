@@ -65,6 +65,8 @@ export default function InteractionsList({
   );
 
   useEffect(() => {
+    console.log("update")
+    
     setLoadData(() => loadData);
     setClearList(() => clearList);
   }, [searchParams, sortData]);
@@ -121,7 +123,6 @@ export default function InteractionsList({
         <ListHeaderColumn></ListHeaderColumn>
       </div>
       <div className="interactions-list__list">
-        {isLoading && <Loader />}
         {!isLoading && items.length === 0 && (
           <div className="interactions-list__empty">
             <span className="interactions-list__empty__title">
@@ -136,8 +137,7 @@ export default function InteractionsList({
             )}
           </div>
         )}
-        {!isLoading &&
-          items.length > 0 &&
+        {
           items.map((item) => (
             <InteractionsListRow
               key={item.id}
@@ -152,6 +152,7 @@ export default function InteractionsList({
               onForwardClick={onForwardClick}
             />
           ))}
+        {isLoading && <Loader />}
       </div>
     </div>
   );

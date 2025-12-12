@@ -106,10 +106,10 @@ export default function InteractionsTab(props: IInteractionsTabProps) {
     setSearchParams(cleanedFilters);
     setHasSearched(true);
 
-    setIsRestoringFilters(true);
+    // setIsRestoringFilters(true);
 
-    // Сбрасываем флаг через небольшой таймаут
-    setTimeout(() => setIsRestoringFilters(false), 100);
+    // // Сбрасываем флаг через небольшой таймаут
+    // setTimeout(() => setIsRestoringFilters(false), 100);
   };
   //Очистить фильтры
   const clearFiltersHandler = () => {
