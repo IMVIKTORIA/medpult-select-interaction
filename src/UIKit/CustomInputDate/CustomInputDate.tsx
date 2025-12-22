@@ -59,6 +59,7 @@ function CustomInputDate(props: CustomInputDateProps) {
     <div className="custom-input-date">
       <input
         type={type}
+        value={props.value ? props.value.split(".").reverse().join("-") : ""}
         onChange={onChangePickerValue}
         className="custom-input-date__picker"
         ref={pickerRef}
