@@ -70,6 +70,7 @@ function CustomInputDate(props: CustomInputDateProps) {
         buttons={<InputButton svg={buttonSvg} clickHandler={openPicker} />}
         placeholder={props.placeholder ?? "ДД.ММ.ГГГГ"}
         maskFunction={Masks.applyDateMask}
+        width={166}
       />
     </div>
   );

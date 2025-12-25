@@ -24,11 +24,11 @@ function Header({ title, status, children }: PropsWithChildren<HeaderProps>) {
   return (
     <div className="header">
       <div className="header__title">{title}</div>
-      <div className="header__status">
+      {/* <div className="header__status">
         {getStatusIcon()}
         {status.name}
         {icons.arrowGreyIcon}
-      </div>
+      </div> */}
     </div>
   );
 }

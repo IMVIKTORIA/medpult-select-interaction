@@ -39,9 +39,31 @@ export default function FilterItemDate({
   /** Парс строки даты+время в Date */
   const parseDateTime = (date?: string, time?: string): Date | null => {
     if (!date) return null;
-    const d = time ? `${date} ${time}` : `${date} 00:00`;
+
+    const normalizedTime = normalizeTime(time) ?? "00:00";
+    const d = `${date} ${normalizedTime}`;
+
     const t = new Date(d);
     return isNaN(t.getTime()) ? null : t;
+  };
+
+  //Приведение времени к правильному формату
+  const normalizeTime = (time?: string): string | undefined => {
+    if (!time) return undefined;
+    // только часы → HH:00
+    if (/^\d{1,2}$/.test(time)) {
+      return `${time.padStart(2, "0")}:00`;
+    }
+    // HH: → HH:00
+    if (/^\d{1,2}:$/.test(time)) {
+      return `${time.padStart(5, "0")}00`;
+    }
+    // HH:M → HH:0M
+    if (/^\d{1,2}:\d$/.test(time)) {
+      const [h, m] = time.split(":");
+      return `${h.padStart(2, "0")}:0${m}`;
+    }
+    return time;
   };
 
   /** Проверка диапазона */
@@ -52,6 +74,7 @@ export default function FilterItemDate({
     return true;
   };
 
+  //Дата "с"
   const handleDateFrom = (date: string) => {
     const from = parseDateTime(date, localTimeFrom);
     const to = parseDateTime(valueTo, localTimeTo);
@@ -78,6 +101,7 @@ export default function FilterItemDate({
     });
   };
 
+  //Дата "по"
   const handleDateTo = (date: string) => {
     const from = parseDateTime(valueFrom, localTimeFrom);
     const to = parseDateTime(date, localTimeTo);
@@ -92,24 +116,10 @@ export default function FilterItemDate({
       timeTo: localTimeTo,
     });
   };
-
+  //Время "с"
   const handleTimeFrom = (val: string) => {
     const masked = masks.applyTimeMask(val);
     setLocalTimeFrom(masked);
-
-    const from = parseDateTime(valueFrom, masked);
-    const to = parseDateTime(valueTo, localTimeTo);
-
-    if (!validateRange(from, to)) {
-      onChange({
-        dateFrom: valueFrom,
-        dateTo: undefined,
-        timeFrom: masked,
-        timeTo: undefined,
-      });
-      setLocalTimeTo("");
-      return;
-    }
 
     onChange({
       dateFrom: valueFrom,
@@ -119,16 +129,10 @@ export default function FilterItemDate({
     });
   };
 
+  //Время "по"
   const handleTimeTo = (val: string) => {
     const masked = masks.applyTimeMask(val);
     setLocalTimeTo(masked);
-
-    const from = parseDateTime(valueFrom, localTimeFrom);
-    const to = parseDateTime(valueTo, masked);
-
-    if (!validateRange(from, to)) return;
-
-    setIsInvalidDateTo(false);
 
     onChange({
       dateFrom: valueFrom,
@@ -163,9 +167,22 @@ export default function FilterItemDate({
             setValue={handleTimeFrom}
             placeholder="00:00"
             width={72}
+            onBlur={() => {
+              const normalized = normalizeTime(localTimeFrom);
+              if (!normalized) return;
+              setLocalTimeFrom(normalized);
+              onChange({
+                dateFrom: valueFrom,
+                dateTo: valueTo,
+                timeFrom: normalized,
+                timeTo: localTimeTo,
+              });
+            }}
           />
         </div>
-
+        {errorFrom && (
+          <div className="filter-item-date__error">Укажите дату</div>
+        )}
         <div className="filter-item-date__group">
           <CustomInputDate
             type="date"
@@ -180,11 +197,20 @@ export default function FilterItemDate({
             setValue={handleTimeTo}
             placeholder="00:00"
             width={72}
+            onBlur={() => {
+              const normalized = normalizeTime(localTimeTo);
+              if (!normalized) return;
+              setLocalTimeTo(normalized);
+              onChange({
+                dateFrom: valueFrom,
+                dateTo: valueTo,
+                timeFrom: localTimeFrom,
+                timeTo: normalized,
+              });
+            }}
           />
         </div>
-        {(errorFrom || errorTo) && (
-          <div className="filter-item-date__error">Укажите дату</div>
-        )}
+        {errorTo && <div className="filter-item-date__error">Укажите дату</div>}
       </div>
     </FilterItemWrapper>
   );

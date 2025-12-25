@@ -89,13 +89,11 @@ export default function FilteredInteractions({
       }, 50);
     }
 
-    
     // Сбрасываем флаг, если восстановление завершилось
     if (!isRestoringFilters) {
       hasAutoAppliedRef.current = false;
     }
   }, [isRestoringFilters]);
-
 
   /** Каналы */
   const [channels, setChannels] = useState<ObjectItem[]>([]);
@@ -189,9 +187,17 @@ export default function FilteredInteractions({
           />
           <CustomInputCheckbox
             title="C вложением"
-            checked={filters.hasAttachment || false}
+            checked={!!filters.hasAttachment}
             setValue={(value) => {
-              setFilters((prev) => ({ ...prev, hasAttachment: value }));
+              setFilters((prev) => {
+                const next = { ...prev };
+                if (value) {
+                  next.hasAttachment = true;
+                } else {
+                  delete next.hasAttachment;
+                }
+                return next;
+              });
             }}
           />
           <FilterItemCategory
