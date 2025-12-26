@@ -72,11 +72,7 @@ function InteractionsHeader(props: InteractionsHeaderProps) {
           {duplicateCount && (
             <span
               className="interactions-open-panel-header__content_count"
-              title={
-                Array.isArray(data.fioWhom)
-                  ? data.fioWhom.join(", ")
-                  : data.fioWhom
-              }
+              title={data.duplicateEmails.join(", ")}
             >
               {duplicateCount}
             </span>
@@ -84,7 +80,11 @@ function InteractionsHeader(props: InteractionsHeaderProps) {
         </div>
         <div className="interactions-open-panel-header__content_number">
           {data.number}
-          <span onClick={handleCopyClick} style={{ cursor: "pointer" }}>
+          <span
+            onClick={handleCopyClick}
+            style={{ cursor: "pointer" }}
+            title="Скопировать"
+          >
             {icons.copyIcon}
           </span>
         </div>
