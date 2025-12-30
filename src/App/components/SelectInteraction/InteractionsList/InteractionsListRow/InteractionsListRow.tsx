@@ -40,7 +40,7 @@ export default function InteractionsListRow({
   onForwardClick,
 }: InteractionsListRowProps) {
   const emptyColumn = <ListColumn>–</ListColumn>;
-  const unknownColumn = <ListColumn>Неизвестно</ListColumn>;
+  const unknownColumn = <ListColumn>Не определен</ListColumn>;
 
   const [isExecutor, setIsExecutor] = useState<boolean | null>(null);
   useEffect(() => {
