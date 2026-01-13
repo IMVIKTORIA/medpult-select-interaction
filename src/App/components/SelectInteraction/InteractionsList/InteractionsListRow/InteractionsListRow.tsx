@@ -70,10 +70,11 @@ export default function InteractionsListRow({
           channel={item.channelType}
           isIncoming={item.isIncoming}
         />
-        <DoubleStrokeColumn
+        {/* <DoubleStrokeColumn
           firstRowValue={item.entryPoint.channelSort}
           secondRowValue={item.entryPoint.marketingName}
-        />
+        /> */}
+        <ListColumn>{item.entryPoint.marketingName}</ListColumn>
         <ListColumn>{item.ivr}</ListColumn>
         <ListColumn></ListColumn>
         <ListColumn tooltip={item.contactData}>{item.contactData}</ListColumn>
